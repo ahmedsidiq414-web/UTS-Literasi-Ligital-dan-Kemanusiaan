@@ -1,0 +1,1318 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f5f5f1">
+  <meta name="description" content="Prototipe pembelajaran interaktif tentang etika dan integritas penggunaan AI generatif di dunia akademik.">
+  <title>Terus Terang — Etika &amp; Integritas AI</title>
+  <script>document.documentElement.classList.add('js');</script>
+  <style>
+    /* =========================================================
+       TERUS TERANG — satu file, tanpa pustaka eksternal
+       ========================================================= */
+    :root {
+      color-scheme: light;
+      --paper: #f5f5f1;
+      --surface: #ffffff;
+      --surface-soft: #eceee8;
+      --ink: #17202b;
+      --muted: #5d6876;
+      --line: #d9ded9;
+      --navy: #122a43;
+      --blue: #2457a7;
+      --blue-soft: #e6edf8;
+      --lime: #d9ef70;
+      --green: #1e6848;
+      --green-soft: #e6f3eb;
+      --red: #a43a37;
+      --red-soft: #f8e9e7;
+      --amber: #8a5b12;
+      --amber-soft: #f8f0dc;
+      --radius: 1.15rem;
+      --radius-lg: 1.8rem;
+      --shadow: 0 18px 55px rgba(24, 38, 53, .08);
+      --content: 1160px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 6rem; }
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: 16px;
+      line-height: 1.65;
+      text-rendering: optimizeLegibility;
+    }
+    body, button, input { font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    a { color: var(--blue); text-underline-offset: .2em; }
+    a:hover { color: var(--navy); }
+    button { color: inherit; }
+    button:focus-visible, a:focus-visible, input:focus-visible, summary:focus-visible {
+      outline: 3px solid #7398ef;
+      outline-offset: 3px;
+    }
+    ::selection { color: var(--navy); background: var(--lime); }
+    .sr-only {
+      position: absolute !important;
+      width: 1px; height: 1px; padding: 0; margin: -1px;
+      overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
+    }
+    .skip-link {
+      position: fixed; z-index: 1200; top: .75rem; left: .75rem;
+      padding: .7rem 1rem; color: #fff; background: var(--navy);
+      border-radius: .6rem; transform: translateY(-160%);
+    }
+    .skip-link:focus { transform: translateY(0); }
+
+    /* Progress and navigation */
+    .reading-progress {
+      position: fixed; z-index: 1100; inset: 0 0 auto; height: 4px;
+      background: #dce1dd;
+    }
+    .reading-progress > span {
+      display: block; width: 0; height: 100%; background: var(--blue);
+      transition: width .12s linear;
+    }
+    .site-header {
+      position: sticky; top: 4px; z-index: 1000;
+      border-bottom: 1px solid rgba(217, 222, 217, .85);
+      background: rgba(245, 245, 241, .94);
+      backdrop-filter: blur(14px);
+    }
+    .nav-shell {
+      position: relative; width: min(var(--content), calc(100% - 3rem));
+      min-height: 74px; margin: 0 auto; display: flex; align-items: center; gap: 2rem;
+    }
+    .brand {
+      display: inline-flex; align-items: center; gap: .7rem; min-width: max-content;
+      color: var(--ink); text-decoration: none;
+    }
+    .brand-mark {
+      width: 36px; height: 36px; display: grid; place-items: center;
+      border-radius: 11px; color: var(--navy); background: var(--lime);
+      font-size: .8rem; font-weight: 850; letter-spacing: -.06em;
+    }
+    .brand-copy { display: grid; line-height: 1.05; }
+    .brand-copy strong { font-size: .9rem; letter-spacing: -.025em; }
+    .brand-copy small { margin-top: .28rem; color: var(--muted); font-size: .66rem; letter-spacing: .08em; text-transform: uppercase; }
+    .site-nav { margin-left: auto; }
+    .nav-links {
+      display: flex; align-items: center; gap: .3rem; margin: 0; padding: 0;
+      list-style: none;
+    }
+    .nav-links a {
+      display: inline-flex; align-items: center; min-height: 40px;
+      padding: .48rem .72rem; border-radius: 999px; color: var(--muted);
+      font-size: .84rem; font-weight: 650; text-decoration: none; transition: background .18s, color .18s;
+    }
+    .nav-links a:hover, .nav-links a.is-active { color: var(--navy); background: #e8ebe5; }
+    .nav-links .nav-cta { color: #fff; background: var(--navy); padding-inline: 1rem; }
+    .nav-links .nav-cta:hover, .nav-links .nav-cta.is-active { color: var(--navy); background: var(--lime); }
+    .menu-toggle {
+      display: none; align-items: center; justify-content: center; width: 42px; height: 42px;
+      margin-left: auto; border: 1px solid var(--line); border-radius: 50%; background: var(--surface); cursor: pointer;
+    }
+    .menu-toggle svg { width: 19px; height: 19px; }
+
+    /* Shared layout and type */
+    .wrap { width: min(var(--content), calc(100% - 3rem)); margin-inline: auto; }
+    .section { padding: clamp(4.5rem, 8vw, 7.6rem) 0; border-top: 1px solid var(--line); }
+    .section-head { display: grid; grid-template-columns: minmax(0, .75fr) minmax(280px, .55fr); align-items: end; gap: 2rem; margin-bottom: 2.8rem; }
+    .eyebrow {
+      display: inline-flex; align-items: center; gap: .55rem; margin: 0 0 .85rem;
+      color: var(--blue); font-size: .75rem; font-weight: 800; letter-spacing: .13em; text-transform: uppercase;
+    }
+    .eyebrow::before { content: ""; width: 19px; height: 2px; background: currentColor; }
+    h1, h2, h3, p { margin-top: 0; }
+    h1, h2, h3 { color: var(--ink); line-height: 1.08; letter-spacing: -.045em; }
+    h1 { max-width: 780px; margin-bottom: 1.35rem; font-size: clamp(3.25rem, 7.3vw, 6.4rem); font-weight: 780; }
+    h1 em { color: var(--blue); font-style: normal; }
+    h2 { margin-bottom: .7rem; font-size: clamp(2.1rem, 4.5vw, 3.7rem); font-weight: 760; }
+    h3 { font-size: 1.25rem; }
+    .section-head > p, .section-intro { max-width: 520px; margin: 0; color: var(--muted); font-size: 1.03rem; }
+    .section-head > div > p:not(.eyebrow) { max-width: 620px; margin-bottom: 0; color: var(--muted); }
+    .citation { display: inline-block; padding-inline: .08rem; font-size: .76em; font-weight: 750; text-decoration: none; vertical-align: super; }
+    .small-note { color: var(--muted); font-size: .83rem; line-height: 1.55; }
+    .card {
+      border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface);
+      box-shadow: 0 8px 30px rgba(24, 38, 53, .035);
+    }
+    .tag {
+      display: inline-flex; align-items: center; width: fit-content; padding: .32rem .6rem;
+      border: 1px solid rgba(18, 42, 67, .14); border-radius: 999px;
+      color: var(--navy); background: rgba(255,255,255,.5); font-size: .68rem; font-weight: 800;
+      letter-spacing: .09em; text-transform: uppercase;
+    }
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: .6rem;
+      min-height: 47px; padding: .72rem 1.08rem; border: 1px solid transparent; border-radius: 999px;
+      color: #fff; background: var(--navy); font-size: .9rem; font-weight: 750; line-height: 1.2;
+      text-decoration: none; cursor: pointer; transition: transform .18s ease, box-shadow .18s ease, background .18s ease;
+    }
+    .btn:hover { color: #fff; background: #1b3a5a; box-shadow: 0 8px 20px rgba(18,42,67,.16); transform: translateY(-2px); }
+    .btn svg { width: 17px; height: 17px; }
+    .btn-secondary { color: var(--navy); border-color: var(--line); background: transparent; }
+    .btn-secondary:hover { color: var(--navy); background: #e9ece6; box-shadow: none; }
+    .btn-light { color: var(--navy); background: var(--lime); }
+    .btn-light:hover { color: var(--navy); background: #e6f58d; }
+    .btn-small { min-height: 39px; padding: .55rem .86rem; font-size: .82rem; }
+
+    /* Hero */
+    .hero { padding: clamp(4.5rem, 8vw, 7.4rem) 0 5.2rem; }
+    .hero-grid { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(330px, .78fr); align-items: center; gap: clamp(2.5rem, 7vw, 6.2rem); }
+    .hero-kicker { margin-bottom: 1.35rem; color: var(--muted); font-size: .75rem; font-weight: 780; letter-spacing: .14em; text-transform: uppercase; }
+    .hero-copy { max-width: 700px; color: var(--muted); font-size: clamp(1.05rem, 1.5vw, 1.22rem); }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: .7rem; margin-top: 1.8rem; }
+    .hero-footnote { margin: 1.35rem 0 0; color: var(--muted); font-size: .79rem; }
+    .hero-panel {
+      position: relative; overflow: hidden; min-height: 430px; padding: 2rem;
+      border-radius: var(--radius-lg); color: #fff; background: var(--navy); box-shadow: var(--shadow);
+      isolation: isolate;
+    }
+    .hero-panel::before, .hero-panel::after { position: absolute; z-index: -1; content: ""; border: 1px solid rgba(255,255,255,.16); border-radius: 50%; }
+    .hero-panel::before { width: 360px; height: 360px; top: 90px; right: -130px; }
+    .hero-panel::after { width: 230px; height: 230px; top: 155px; right: -65px; }
+    .panel-top { display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
+    .panel-top .tag { color: #e5edfa; border-color: rgba(255,255,255,.24); background: rgba(255,255,255,.08); }
+    .panel-index { color: #aab8c8; font-size: .75rem; font-weight: 700; letter-spacing: .12em; }
+    .hero-stat { margin: 3rem 0 0; color: var(--lime); font-size: clamp(4rem, 7vw, 6rem); font-weight: 790; line-height: .95; letter-spacing: -.08em; }
+    .hero-stat-label { max-width: 275px; margin: .9rem 0 0; font-size: 1.03rem; font-weight: 650; line-height: 1.4; }
+    .hero-stat-source { max-width: 320px; margin: .6rem 0 0; color: #c7d1dd; font-size: .76rem; }
+    .hero-panel-rule { height: 1px; margin: 1.7rem 0 1.3rem; background: rgba(255,255,255,.2); }
+    .hero-panel-bottom { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+    .hero-panel-bottom p { margin: 0; color: #d9e0e9; font-size: .84rem; }
+    .hero-panel-bottom svg { flex: 0 0 auto; width: 36px; height: 36px; color: var(--lime); }
+    .hero-steps { display: flex; align-items: center; gap: .45rem; margin-top: 1.4rem; }
+    .hero-steps span { width: 27px; height: 3px; border-radius: 4px; background: rgba(255,255,255,.24); }
+    .hero-steps span:first-child { width: 48px; background: var(--lime); }
+    .hero-foot { display: flex; flex-wrap: wrap; gap: .7rem 1.3rem; margin-top: 3rem; color: var(--muted); font-size: .78rem; }
+    .hero-foot span { display: inline-flex; align-items: center; gap: .45rem; }
+    .hero-foot svg { width: 15px; height: 15px; color: var(--blue); }
+
+    /* Why it matters */
+    .context-section { background: #eef0eb; }
+    .context-grid { display: grid; grid-template-columns: minmax(250px, .78fr) minmax(0, 1.22fr); gap: 3rem; align-items: start; }
+    .context-copy { max-width: 420px; }
+    .context-copy p { color: #46515f; }
+    .context-copy p:last-child { margin-bottom: 0; }
+    .stat-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .85rem; }
+    .stat-card { min-height: 210px; padding: 1.35rem; display: flex; flex-direction: column; justify-content: space-between; }
+    .stat-card:nth-child(2) { color: #fff; border-color: var(--navy); background: var(--navy); }
+    .stat-card:nth-child(2) .stat-label, .stat-card:nth-child(2) .stat-source { color: #cfdae6; }
+    .stat-value { display: block; margin: .65rem 0 .75rem; color: var(--blue); font-size: clamp(2.5rem, 4vw, 3.45rem); font-weight: 780; line-height: 1; letter-spacing: -.07em; }
+    .stat-card:nth-child(2) .stat-value { color: var(--lime); }
+    .stat-label { margin: 0; font-size: .88rem; font-weight: 700; line-height: 1.4; }
+    .stat-source { margin: .7rem 0 0; color: var(--muted); font-size: .69rem; line-height: 1.45; }
+    .data-caveat { display: flex; gap: .65rem; align-items: flex-start; margin: 1rem 0 0; padding: 1rem 1.1rem; border-radius: .9rem; color: #4c5661; background: rgba(255,255,255,.72); font-size: .8rem; }
+    .data-caveat svg { flex: 0 0 auto; width: 18px; height: 18px; margin-top: .1rem; color: var(--blue); }
+
+    /* Four pillars */
+    .pillars-layout { display: grid; grid-template-columns: minmax(0, .63fr) minmax(0, 1.1fr); gap: clamp(2rem, 7vw, 6rem); align-items: start; }
+    .pillar-aside { position: sticky; top: 7rem; }
+    .pillar-aside .aside-quote { margin: 1.5rem 0 0; padding: 1.3rem 1.35rem; border-left: 3px solid var(--lime); border-radius: 0 .9rem .9rem 0; color: var(--navy); background: #edf0e7; font-size: 1.05rem; font-weight: 680; line-height: 1.45; }
+    .pillar-aside .small-note { margin-top: .9rem; }
+    .pillar-list { display: grid; gap: .7rem; }
+    .pillar-item { overflow: hidden; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); transition: border-color .18s, box-shadow .18s; }
+    .pillar-item[open] { border-color: #b9c6d5; box-shadow: 0 12px 35px rgba(18,42,67,.07); }
+    .pillar-item summary { display: grid; grid-template-columns: 48px 1fr 24px; align-items: center; gap: 1rem; padding: 1.2rem 1.35rem; list-style: none; cursor: pointer; }
+    .pillar-item summary::-webkit-details-marker { display: none; }
+    .pillar-number { width: 44px; height: 44px; display: grid; place-items: center; border-radius: 14px; color: var(--navy); background: var(--blue-soft); font-size: .82rem; font-weight: 850; }
+    .pillar-item:nth-child(2) .pillar-number { background: var(--green-soft); color: var(--green); }
+    .pillar-item:nth-child(3) .pillar-number { background: var(--amber-soft); color: var(--amber); }
+    .pillar-item:nth-child(4) .pillar-number { background: #eee9f6; color: #60488d; }
+    .pillar-title { display: block; font-weight: 760; letter-spacing: -.02em; line-height: 1.25; }
+    .pillar-subtitle { display: block; margin-top: .25rem; color: var(--muted); font-size: .78rem; font-weight: 500; }
+    .chevron { width: 18px; height: 18px; color: var(--muted); transition: transform .22s ease; }
+    .pillar-item[open] .chevron { transform: rotate(180deg); }
+    .pillar-body { padding: 0 1.35rem 1.4rem 5.9rem; color: #46515f; }
+    .pillar-body p { margin-bottom: .85rem; }
+    .pillar-body ul { margin: 0; padding-left: 1.1rem; }
+    .pillar-body li { margin: .36rem 0; }
+    .pillar-check { margin-top: 1rem; padding: .75rem .9rem; border-radius: .75rem; color: var(--navy); background: #f0f3f7; font-size: .82rem; }
+    .pillar-check strong { display: block; margin-bottom: .2rem; }
+
+    /* Timeline */
+    .timeline-section { background: #eef0eb; }
+    .timeline-note { display: flex; gap: .8rem; align-items: flex-start; max-width: 720px; margin: -1rem 0 2.4rem; padding: 1rem 1.1rem; border: 1px solid #dfe3dc; border-radius: .9rem; background: rgba(255,255,255,.62); color: #46515f; font-size: .84rem; }
+    .timeline-note svg { flex: 0 0 auto; width: 19px; height: 19px; color: var(--blue); }
+    .timeline { --timeline-progress: 0%; position: relative; display: grid; gap: .75rem; margin: 0; padding: 0; list-style: none; }
+    .timeline::before {
+      content: ""; position: absolute; top: 22px; bottom: 22px; left: 91px; width: 2px;
+      background: linear-gradient(to bottom, var(--blue) 0, var(--blue) var(--timeline-progress), #cdd5d0 var(--timeline-progress), #cdd5d0 100%);
+    }
+    .timeline-item { position: relative; display: grid; grid-template-columns: 72px 1fr; gap: 2.3rem; align-items: start; }
+    .timeline-year { position: relative; z-index: 1; padding-top: 1.15rem; color: var(--blue); font-size: .82rem; font-weight: 850; letter-spacing: .02em; text-align: right; }
+    .timeline-year::after { content: ""; position: absolute; top: 1.4rem; right: -2.95rem; width: 11px; height: 11px; border: 3px solid var(--paper); border-radius: 50%; background: #aeb9b3; box-shadow: 0 0 0 1px #bec8c2; transition: background .2s, transform .2s; }
+    .timeline-item.is-active .timeline-year::after { background: var(--blue); transform: scale(1.16); box-shadow: 0 0 0 3px #dce6f5; }
+    .timeline-card { overflow: hidden; border: 1px solid var(--line); border-radius: 1rem; background: rgba(255,255,255,.8); }
+    .timeline-trigger { width: 100%; display: grid; grid-template-columns: 1fr 24px; gap: 1rem; align-items: center; padding: 1.05rem 1.25rem; border: 0; background: transparent; text-align: left; cursor: pointer; }
+    .timeline-trigger:hover { background: #fff; }
+    .timeline-trigger strong { display: block; color: var(--ink); font-size: 1rem; letter-spacing: -.02em; }
+    .timeline-trigger small { display: block; margin-top: .22rem; color: var(--muted); font-size: .81rem; }
+    .timeline-trigger .chevron { justify-self: end; }
+    .timeline-trigger[aria-expanded="true"] .chevron { transform: rotate(180deg); }
+    .timeline-detail { padding: 0 1.25rem 1.2rem; color: #4d5864; font-size: .9rem; }
+    .timeline-detail p { margin-bottom: .55rem; }
+    .timeline-detail p:last-child { margin-bottom: 0; }
+    .timeline-detail[hidden] { display: none; }
+
+    /* Issue cards */
+    .issue-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: .9rem; }
+    .flip-card { display: block; width: 100%; min-height: 318px; padding: 0; border: 0; border-radius: var(--radius); background: transparent; text-align: left; cursor: pointer; perspective: 1000px; }
+    .flip-card:focus-visible { outline-offset: 5px; }
+    .flip-inner { position: relative; display: block; min-height: 318px; height: 100%; border-radius: var(--radius); transform-style: preserve-3d; transition: transform .55s cubic-bezier(.2,.75,.2,1); }
+    .flip-card.is-flipped .flip-inner { transform: rotateY(180deg); }
+    .flip-face { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: flex-start; padding: 1.35rem; border: 1px solid var(--line); border-radius: var(--radius); backface-visibility: hidden; -webkit-backface-visibility: hidden; }
+    .flip-front { color: var(--ink); background: #fff; }
+    .flip-back { color: #fff; border-color: var(--navy); background: var(--navy); transform: rotateY(180deg); }
+    .issue-index { display: flex; align-items: center; justify-content: space-between; width: 100%; color: var(--muted); font-size: .7rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
+    .flip-back .issue-index { color: #c8d3e0; }
+    .issue-icon { width: 45px; height: 45px; display: grid; place-items: center; margin: 2.2rem 0 1rem; border-radius: 14px; color: var(--blue); background: var(--blue-soft); }
+    .issue-icon svg { width: 23px; height: 23px; }
+    .flip-front .issue-title { display: block; margin: 0 0 .6rem; font-size: 1.25rem; font-weight: 760; line-height: 1.15; letter-spacing: -.035em; }
+    .flip-front .issue-desc { display: block; margin: 0; color: var(--muted); font-size: .86rem; }
+    .flip-hint { display: flex; align-items: center; gap: .42rem; margin-top: auto; padding-top: 1rem; color: var(--blue); font-size: .76rem; font-weight: 750; }
+    .flip-hint svg { width: 15px; height: 15px; }
+    .flip-back .issue-title { display: block; margin: 2.2rem 0 .8rem; color: #fff; font-size: 1.18rem; font-weight: 760; line-height: 1.18; letter-spacing: -.025em; }
+    .flip-back .issue-desc { display: block; margin: 0 0 .8rem; color: #e0e6ee; font-size: .85rem; }
+    .flip-back .flip-hint { color: var(--lime); }
+    .issue-footnote { margin: 1.1rem 0 0; padding: 1rem 1.15rem; border-left: 3px solid var(--amber); border-radius: 0 .8rem .8rem 0; background: var(--amber-soft); color: #584827; font-size: .82rem; }
+
+    /* Scenario quiz */
+    .quiz-section { color: #fff; background: var(--navy); }
+    .quiz-section h2, .quiz-section h3 { color: #fff; }
+    .quiz-section .eyebrow { color: var(--lime); }
+    .quiz-section .section-head > p, .quiz-section .section-intro { color: #cbd6e1; }
+    .quiz-shell { display: grid; grid-template-columns: minmax(0, 1fr) 280px; gap: 1rem; align-items: stretch; }
+    .quiz-panel { min-height: 460px; padding: clamp(1.3rem, 3vw, 2.25rem); border-radius: var(--radius-lg); color: var(--ink); background: #fff; }
+    .quiz-top { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: 2rem; }
+    .quiz-kicker { color: var(--blue); font-size: .73rem; font-weight: 850; letter-spacing: .11em; text-transform: uppercase; }
+    .quiz-progress-wrap { display: flex; align-items: center; gap: .75rem; color: var(--muted); font-size: .76rem; font-weight: 700; }
+    .quiz-progress-track { overflow: hidden; width: 116px; height: 6px; border-radius: 999px; background: #e4e8e5; }
+    .quiz-progress-track span { display: block; width: 0; height: 100%; border-radius: inherit; background: var(--blue); transition: width .35s ease; }
+    .quiz-question { max-width: 710px; margin-bottom: .8rem; font-size: clamp(1.5rem, 3.1vw, 2.2rem); font-weight: 760; line-height: 1.15; letter-spacing: -.04em; }
+    .quiz-enter { animation: quiz-arrive .32s cubic-bezier(.2,.7,.2,1) both; }
+    @keyframes quiz-arrive { from { opacity: .25; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+    .quiz-situation { max-width: 760px; margin-bottom: 1.4rem; color: #505b67; }
+    .quiz-options { display: grid; gap: .55rem; }
+    .quiz-option {
+      width: 100%; display: grid; grid-template-columns: 34px 1fr; gap: .8rem; align-items: center;
+      padding: .82rem .9rem; border: 1px solid #dce1e4; border-radius: .82rem; color: var(--ink); background: #fff;
+      text-align: left; cursor: pointer; transition: border-color .18s, background .18s, transform .18s;
+    }
+    .quiz-option:hover:not(:disabled) { border-color: #9db2d0; background: #f7f9fc; transform: translateX(2px); }
+    .quiz-option:disabled { cursor: default; }
+    .quiz-option.is-correct { border-color: #70a988; background: var(--green-soft); }
+    .quiz-option.is-selected:not(.is-correct) { border-color: #d3976f; background: #fff5ea; }
+    .option-letter { width: 29px; height: 29px; display: grid; place-items: center; border-radius: 50%; color: var(--navy); background: #edf0f3; font-size: .74rem; font-weight: 850; }
+    .quiz-option.is-correct .option-letter { color: #fff; background: var(--green); }
+    .option-text { font-size: .89rem; line-height: 1.45; }
+    .quiz-feedback { margin-top: 1rem; padding: 1rem 1.05rem; border-radius: .85rem; color: var(--ink); background: #edf3fb; font-size: .88rem; }
+    .quiz-feedback[data-tone="good"] { background: var(--green-soft); }
+    .quiz-feedback[data-tone="mixed"] { background: var(--amber-soft); }
+    .quiz-feedback[data-tone="bad"] { background: var(--red-soft); }
+    .quiz-feedback strong { display: block; margin-bottom: .25rem; }
+    .quiz-feedback p { margin: 0; }
+    .quiz-actions { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .8rem; margin-top: 1rem; }
+    .quiz-score-live { color: var(--muted); font-size: .8rem; font-weight: 700; }
+    .quiz-side { display: flex; flex-direction: column; justify-content: space-between; padding: 1.5rem; border: 1px solid rgba(255,255,255,.18); border-radius: var(--radius); background: rgba(255,255,255,.06); }
+    .quiz-side .tag { color: #e2ebf5; border-color: rgba(255,255,255,.24); }
+    .quiz-side h3 { margin: 1.2rem 0 .65rem; font-size: 1.35rem; }
+    .quiz-side p { color: #cbd6e1; font-size: .88rem; }
+    .quiz-side .side-number { color: var(--lime); font-size: 3.5rem; font-weight: 800; line-height: 1; letter-spacing: -.07em; }
+    #liveScore { display: inline-block; }
+    #liveScore.score-bump { animation: score-bump .32s ease; }
+    @keyframes score-bump { 40% { transform: scale(1.16); } 100% { transform: scale(1); } }
+    .quiz-side .side-number small { color: #d9e2ec; font-size: 1rem; font-weight: 650; letter-spacing: 0; }
+    .quiz-side-rule { height: 1px; margin: 1.2rem 0; background: rgba(255,255,255,.18); }
+    .quiz-result { text-align: left; }
+    .quiz-result-score { margin: .5rem 0 1rem; color: var(--blue); font-size: 4.2rem; font-weight: 820; line-height: 1; letter-spacing: -.08em; }
+    .quiz-result-score span { color: var(--muted); font-size: 1.1rem; letter-spacing: 0; }
+    .quiz-result h3 { margin-bottom: .65rem; color: var(--ink); font-size: 1.8rem; }
+    .quiz-result p { max-width: 680px; color: #505b67; }
+    .quiz-result .btn { margin-top: .6rem; }
+    .quiz-note { margin: 1.1rem 0 0; color: #cbd6e1; font-size: .77rem; }
+
+    /* Practical guide */
+    .practice-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .practice-card { padding: clamp(1.35rem, 3vw, 2rem); }
+    .practice-card h3 { display: flex; align-items: center; gap: .7rem; margin-bottom: 1.2rem; }
+    .practice-icon { width: 34px; height: 34px; display: grid; place-items: center; border-radius: 50%; font-size: 1rem; }
+    .practice-good .practice-icon { color: var(--green); background: var(--green-soft); }
+    .practice-bad .practice-icon { color: var(--red); background: var(--red-soft); }
+    .practice-list { display: grid; gap: .85rem; margin: 0; padding: 0; list-style: none; }
+    .practice-list li { display: grid; grid-template-columns: 20px 1fr; gap: .65rem; align-items: start; color: #46515f; font-size: .91rem; }
+    .practice-list svg { width: 18px; height: 18px; margin-top: .16rem; }
+    .practice-good .practice-list svg { color: var(--green); }
+    .practice-bad .practice-list svg { color: var(--red); }
+    .condition-box { margin-top: 1.2rem; padding: 1rem 1.05rem; border-radius: .85rem; color: #42546a; background: #eff3f8; font-size: .83rem; }
+    .declaration-box { margin-top: 1rem; padding: 1.5rem; border: 1px solid #cbd5e2; border-radius: var(--radius); background: #e9eef5; }
+    .declaration-head { display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: space-between; gap: 1rem; }
+    .declaration-head h3 { margin: 0 0 .35rem; font-size: 1.15rem; }
+    .declaration-head p { max-width: 630px; margin: 0; color: var(--muted); font-size: .84rem; }
+    .declaration-text { margin: 1.15rem 0; padding: 1rem 1.1rem; border-left: 3px solid var(--blue); border-radius: 0 .7rem .7rem 0; color: var(--navy); background: rgba(255,255,255,.78); font-size: .94rem; }
+    .declaration-actions { display: flex; flex-wrap: wrap; align-items: center; gap: .65rem; }
+    .live-status { min-height: 1.3rem; margin: .65rem 0 0; color: var(--green); font-size: .8rem; font-weight: 650; }
+
+    /* Pledge / reflection */
+    .pledge-section { background: #eef0eb; }
+    .pledge-grid { display: grid; grid-template-columns: minmax(0, .78fr) minmax(0, 1.12fr); gap: 2rem; align-items: start; }
+    .pledge-intro { position: sticky; top: 7rem; }
+    .pledge-intro blockquote { margin: 1.4rem 0 0; padding: 1.2rem 1.3rem; border-left: 3px solid var(--blue); border-radius: 0 .8rem .8rem 0; color: var(--navy); background: #fff; font-size: 1.12rem; font-weight: 700; line-height: 1.45; }
+    .pledge-form { padding: clamp(1.25rem, 3vw, 2rem); }
+    .pledge-form fieldset { margin: 0; padding: 0; border: 0; }
+    .pledge-form legend { margin-bottom: .25rem; font-weight: 780; }
+    .form-help { margin: 0 0 1rem; color: var(--muted); font-size: .81rem; }
+    .value-grid { display: grid; grid-template-columns: 1fr 1fr; gap: .55rem; }
+    .value-option { display: flex; align-items: center; gap: .65rem; min-height: 46px; padding: .6rem .7rem; border: 1px solid var(--line); border-radius: .72rem; background: #fbfcfa; font-size: .86rem; font-weight: 650; cursor: pointer; }
+    .value-option:hover { border-color: #aab8c7; }
+    .value-option input { width: 17px; height: 17px; accent-color: var(--blue); }
+    .name-field { display: block; margin: 1.2rem 0 1rem; }
+    .name-field span { display: block; margin-bottom: .42rem; font-size: .83rem; font-weight: 750; }
+    .name-field input { width: 100%; min-height: 46px; padding: .7rem .85rem; border: 1px solid var(--line); border-radius: .75rem; background: #fff; font-size: .95rem; }
+    .pledge-card { max-width: 780px; margin: 1.4rem auto 0; padding: clamp(1.4rem, 4vw, 2.4rem); border: 1px solid #cdd6df; border-radius: var(--radius-lg); background: #fff; box-shadow: var(--shadow); }
+    .pledge-card[hidden] { display: none !important; }
+    .pledge-card-top { display: flex; justify-content: space-between; align-items: center; gap: 1rem; padding-bottom: 1rem; border-bottom: 1px solid var(--line); }
+    .pledge-mark { display: flex; align-items: center; gap: .55rem; color: var(--navy); font-size: .75rem; font-weight: 850; letter-spacing: .1em; text-transform: uppercase; }
+    .pledge-mark .brand-mark { width: 30px; height: 30px; border-radius: 9px; }
+    .pledge-date { color: var(--muted); font-size: .77rem; }
+    .pledge-card h3 { margin: 1.4rem 0 .5rem; font-size: clamp(1.6rem, 3vw, 2.35rem); }
+    .pledge-person { margin-bottom: .85rem; color: var(--blue); font-size: 1.1rem; font-weight: 750; }
+    .pledge-message { max-width: 640px; color: #495461; }
+    .pledge-values { display: flex; flex-wrap: wrap; gap: .45rem; margin: 1.1rem 0 1.25rem; padding: 0; list-style: none; }
+    .pledge-values li { padding: .4rem .65rem; border-radius: 999px; color: var(--navy); background: var(--blue-soft); font-size: .77rem; font-weight: 720; }
+    .pledge-footer { display: flex; flex-wrap: wrap; justify-content: space-between; gap: .6rem; padding-top: 1rem; border-top: 1px solid var(--line); color: var(--muted); font-size: .75rem; }
+    .pledge-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: .6rem; margin-top: 1rem; }
+
+    /* Transparency and references */
+    .transparency-panel { display: grid; grid-template-columns: 72px 1fr; gap: 1.35rem; align-items: start; padding: clamp(1.35rem, 4vw, 2.4rem); border: 1px solid #cbd5e2; border-radius: var(--radius-lg); background: #e8edf4; }
+    .transparency-icon { width: 58px; height: 58px; display: grid; place-items: center; border-radius: 18px; color: var(--lime); background: var(--navy); }
+    .transparency-icon svg { width: 27px; height: 27px; }
+    .transparency-panel h3 { margin-bottom: .65rem; font-size: 1.35rem; }
+    .transparency-panel p { max-width: 850px; margin-bottom: .8rem; color: #46515f; }
+    .transparency-panel p:last-child { margin-bottom: 0; }
+    .review-callout { margin-top: 1rem; padding: 1rem 1.1rem; border: 1px solid #d8c78c; border-radius: .85rem; color: #5e4a1d; background: #f7f0dd; font-size: .84rem; }
+    .references-section { background: #eef0eb; }
+    .references-list { display: grid; gap: .65rem; margin: 0; padding: 0; list-style: none; counter-reset: refs; }
+    .reference-item { display: grid; grid-template-columns: 42px 1fr; gap: .9rem; align-items: start; padding: 1rem 1.1rem; border: 1px solid var(--line); border-radius: .9rem; background: rgba(255,255,255,.82); }
+    .ref-number { width: 34px; height: 34px; display: grid; place-items: center; border-radius: 50%; color: var(--navy); background: var(--lime); font-size: .74rem; font-weight: 850; }
+    .reference-item p { margin: 0; color: #485360; font-size: .84rem; }
+    .reference-item p strong { color: var(--ink); }
+    .reference-item a { display: inline-block; margin-top: .25rem; overflow-wrap: anywhere; font-size: .78rem; }
+    .sources-note { margin-top: 1rem; padding: 1rem 1.1rem; border-radius: .85rem; color: #4e5965; background: #e3e7e1; font-size: .82rem; }
+    .site-footer { padding: 2rem 0 2.5rem; color: #d9e2ea; background: var(--navy); }
+    .footer-inner { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem; }
+    .footer-inner p { margin: 0; font-size: .78rem; }
+    .footer-links { display: flex; flex-wrap: wrap; gap: 1rem; }
+    .footer-links a { color: #d9e2ea; font-size: .78rem; }
+
+    /* Reveal animation: JS progressively turns it on; content remains visible without JS. */
+    .js .reveal { opacity: 0; transform: translateY(18px); transition: opacity .55s ease, transform .55s cubic-bezier(.2,.7,.2,1); }
+    .js .reveal.is-visible { opacity: 1; transform: translateY(0); }
+    .js .hero .reveal { animation: hero-in .65s both; }
+    .js .hero .reveal:nth-child(2) { animation-delay: .12s; }
+    .js .hero .reveal:nth-child(3) { animation-delay: .22s; }
+    @keyframes hero-in { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* Responsive */
+    @media (max-width: 980px) {
+      .nav-shell { width: min(var(--content), calc(100% - 2rem)); }
+      .nav-links a { padding-inline: .54rem; font-size: .78rem; }
+      .hero-grid { grid-template-columns: minmax(0, 1.05fr) minmax(300px, .8fr); gap: 2rem; }
+      .hero-panel { min-height: 405px; }
+      .issue-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .flip-card, .flip-inner { min-height: 280px; }
+    }
+    @media (max-width: 780px) {
+      .nav-shell { min-height: 66px; }
+      .menu-toggle { display: inline-flex; }
+      .site-nav { display: none; position: absolute; top: calc(100% + .5rem); left: 0; right: 0; z-index: 20; padding: .55rem; border: 1px solid var(--line); border-radius: 1rem; background: var(--paper); box-shadow: var(--shadow); }
+      .site-nav.is-open { display: block; }
+      .nav-links { display: flex; flex-direction: column; align-items: stretch; gap: .15rem; }
+      .nav-links a { min-height: 43px; padding-inline: .85rem; border-radius: .68rem; font-size: .9rem; }
+      .nav-links .nav-cta { justify-content: center; margin-top: .25rem; }
+      .section-head { grid-template-columns: 1fr; gap: .8rem; }
+      .section-head > p { max-width: 660px; }
+      .hero-grid { grid-template-columns: 1fr; }
+      .hero-panel { width: min(100%, 540px); min-height: 390px; }
+      .context-grid { grid-template-columns: 1fr; gap: 1.8rem; }
+      .context-copy { max-width: 720px; }
+      .pillars-layout { grid-template-columns: 1fr; gap: 1.6rem; }
+      .pillar-aside, .pledge-intro { position: static; }
+      .pillar-aside .aside-quote { max-width: 600px; }
+      .quiz-shell { grid-template-columns: 1fr; }
+      .quiz-side { display: grid; grid-template-columns: auto 1fr; gap: 0 1rem; align-items: center; }
+      .quiz-side .tag { grid-column: 1 / -1; width: fit-content; }
+      .quiz-side h3 { margin: .7rem 0 .2rem; }
+      .quiz-side p { margin: 0; }
+      .quiz-side-rule { display: none; }
+      .quiz-side .side-number { grid-row: 2 / 4; grid-column: 1; }
+      .pledge-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 560px) {
+      .wrap { width: min(var(--content), calc(100% - 2rem)); }
+      h1 { font-size: clamp(3rem, 15vw, 4.4rem); }
+      h2 { font-size: clamp(2rem, 10vw, 2.8rem); }
+      .hero { padding-top: 4rem; }
+      .hero-panel { min-height: 370px; padding: 1.45rem; }
+      .hero-stat { margin-top: 2.6rem; }
+      .hero-panel-bottom { align-items: flex-start; }
+      .hero-panel-bottom p { max-width: 280px; }
+      .hero-foot { margin-top: 2rem; }
+      .stat-grid { grid-template-columns: 1fr; }
+      .stat-card { min-height: 155px; }
+      .pillar-item summary { grid-template-columns: 42px 1fr 20px; gap: .7rem; padding: 1rem; }
+      .pillar-number { width: 39px; height: 39px; border-radius: 12px; }
+      .pillar-body { padding: 0 1rem 1.1rem; }
+      .timeline::before { left: 58px; }
+      .timeline-item { grid-template-columns: 43px 1fr; gap: 1.3rem; }
+      .timeline-year { padding-top: 1rem; font-size: .75rem; }
+      .timeline-year::after { top: 1.3rem; right: -1.73rem; width: 10px; height: 10px; }
+      .timeline-trigger { padding: .9rem; }
+      .timeline-detail { padding: 0 .9rem 1rem; }
+      .issue-grid { grid-template-columns: 1fr; }
+      .flip-card, .flip-inner { min-height: 265px; }
+      .issue-icon { margin-top: 1.45rem; }
+      .quiz-panel { min-height: unset; padding: 1.15rem; border-radius: 1.2rem; }
+      .quiz-top { margin-bottom: 1.3rem; }
+      .quiz-progress-track { width: 72px; }
+      .quiz-question { font-size: 1.55rem; }
+      .quiz-option { grid-template-columns: 30px 1fr; gap: .6rem; padding: .72rem; }
+      .option-text { font-size: .83rem; }
+      .practice-grid { grid-template-columns: 1fr; }
+      .declaration-box { padding: 1.2rem; }
+      .declaration-head .btn { width: 100%; }
+      .value-grid { grid-template-columns: 1fr; }
+      .transparency-panel { grid-template-columns: 1fr; }
+      .transparency-icon { width: 48px; height: 48px; border-radius: 15px; }
+      .reference-item { grid-template-columns: 35px 1fr; gap: .65rem; padding: .85rem; }
+      .ref-number { width: 30px; height: 30px; }
+      .footer-inner { align-items: flex-start; flex-direction: column; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+      .js .reveal { opacity: 1; transform: none; }
+    }
+    @media print {
+      body * { visibility: hidden !important; }
+      #pledgeCard, #pledgeCard * { visibility: visible !important; }
+      #pledgeCard { position: absolute; inset: 0 auto auto 0; width: 100%; max-width: none; margin: 0; border: 0; box-shadow: none; }
+      .pledge-actions, .reading-progress, .site-header, .site-footer { display: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">Lewati ke konten</a>
+  <div class="reading-progress" role="progressbar" aria-label="Progres membaca" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span id="readingFill"></span></div>
+
+  <!-- Navigasi utama -->
+  <header class="site-header" id="top">
+    <div class="nav-shell">
+      <a class="brand" href="#top" aria-label="Terus Terang, kembali ke halaman awal">
+        <span class="brand-mark" aria-hidden="true">TT</span>
+        <span class="brand-copy"><strong>Terus Terang</strong><small>Etika &amp; Integritas AI</small></span>
+      </a>
+      <button class="menu-toggle" id="menuToggle" type="button" aria-label="Buka navigasi" aria-controls="primaryNav" aria-expanded="false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+      <nav class="site-nav" id="primaryNav" aria-label="Navigasi utama">
+        <ul class="nav-links">
+          <li><a href="#konteks">Konteks</a></li>
+          <li><a href="#pilar">4 pilar</a></li>
+          <li><a href="#linimasa">Linimasa</a></li>
+          <li><a href="#isu">Isu</a></li>
+          <li><a href="#praktik">Panduan</a></li>
+          <li><a class="nav-cta" href="#simulasi">Coba simulasi <span aria-hidden="true">↗</span></a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <!-- Hero -->
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="wrap hero-grid">
+        <div>
+          <p class="hero-kicker reveal">Proyek 1 UTS · Literasi Digital dan Kemanusiaan</p>
+          <h1 class="reveal" id="hero-title">Etika &amp;<br><em>Integritas</em> AI</h1>
+          <p class="hero-copy reveal">AI bisa membantu proses belajar. Tanggung jawab atas isi, sumber, dan keputusan tetap ada pada kita.</p>
+          <div class="hero-actions reveal">
+            <a class="btn" href="#konteks">Mulai belajar <span aria-hidden="true">↓</span></a>
+            <a class="btn btn-secondary" href="#simulasi">Langsung ke simulasi</a>
+          </div>
+          <p class="hero-footnote reveal">Prototipe pembelajaran interaktif tentang etika dan integritas AI dalam dunia akademik dan pembelajaran.</p>
+          <div class="hero-foot reveal" aria-label="Isi pembelajaran">
+            <span><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="m4 10 4 4 8-9"/></svg>Materi berbasis sumber</span>
+            <span><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="10" cy="10" r="7.5"/><path d="M10 6v4l3 2"/></svg>Simulasi 5 situasi</span>
+            <span><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3 5h14M5 5v11h10V5M8 8h4M8 11h4"/></svg>Referensi terbuka</span>
+          </div>
+        </div>
+        <aside class="hero-panel reveal" aria-label="Cuplikan data penggunaan AI">
+          <div class="panel-top"><span class="tag">Satu temuan, satu konteks</span><span class="panel-index">01 / 04</span></div>
+          <p class="hero-stat"><span class="counter" data-count="90" data-prefix="&gt;" data-suffix="%">&gt;90%</span></p>
+          <p class="hero-stat-label">responden mahasiswa PTKIN dalam satu studi melaporkan memakai ChatGPT secara aktif.</p>
+          <p class="hero-stat-source">Studi yang dipaparkan BRIN: 293 mahasiswa dari 17 PTKIN, 2025. Bukan survei representatif semua mahasiswa Indonesia. <a class="citation" href="#ref-5" style="color:#d9ef70">[5]</a></p>
+          <div class="hero-panel-rule"></div>
+          <div class="hero-panel-bottom">
+            <p>Angka ini menunjukkan kebiasaan yang berubah. Bukan alasan untuk berhenti berpikir.</p>
+            <svg viewBox="0 0 40 40" fill="none" aria-hidden="true"><circle cx="20" cy="20" r="16" stroke="currentColor" stroke-width="1.5"/><path d="M13 20h14M21 13l7 7-7 7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="hero-steps" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- Konteks and statistics -->
+    <section class="section context-section" id="konteks" aria-labelledby="context-title">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <div><p class="eyebrow">01 · Kenapa ini penting</p><h2 id="context-title">AI sudah masuk ke ruang belajar.</h2></div>
+          <p>AI dapat membantu mencari gagasan, memahami konsep, dan menyunting tulisan. Risiko muncul ketika hasilnya dipercaya tanpa diperiksa atau diserahkan seolah sepenuhnya karya sendiri.</p>
+        </div>
+        <div class="context-grid">
+          <div class="context-copy reveal">
+            <p>Persoalannya bukan sekadar memakai atau melarang AI. Pertanyaan yang lebih berguna: bagian mana yang dibantu AI, apa yang kamu pahami, dan siapa yang bertanggung jawab atas hasil akhirnya?</p>
+            <p>Panduan Kemdikbudristek dan UNESCO menekankan penggunaan yang berpusat pada manusia. AI seharusnya memperkuat proses belajar, bukan mengambil alih penilaian dan tanggung jawab kita. <a class="citation" href="#ref-1">[1]</a><a class="citation" href="#ref-2">[2]</a></p>
+            <p>Mulai dari tiga hal: jujur tentang bantuan yang dipakai, periksa setiap klaim, dan lindungi data orang lain.</p>
+          </div>
+          <div class="reveal">
+            <div class="stat-grid" aria-label="Temuan riset tentang penggunaan AI">
+              <article class="card stat-card">
+                <div><span class="tag">Sampel PTKIN</span><span class="stat-value counter" data-count="90" data-prefix="&gt;" data-suffix="%">&gt;90%</span><p class="stat-label">responden menggunakan ChatGPT secara aktif.</p></div>
+                <p class="stat-source">BRIN, 293 mahasiswa dari 17 PTKIN, 2025. <a class="citation" href="#ref-5">[5]</a></p>
+              </article>
+              <article class="card stat-card">
+                <div><span class="tag">Frekuensi laporan</span><span class="stat-value">4–6×</span><p class="stat-label">pemakaian ChatGPT per minggu dalam studi yang sama.</p></div>
+                <p class="stat-source">Angka pada sampel studi; bukan ukuran kebiasaan seluruh mahasiswa. <a class="citation" href="#ref-5">[5]</a></p>
+              </article>
+              <article class="card stat-card">
+                <div><span class="tag">Kebijakan institusi</span><span class="stat-value counter" data-count="10" data-prefix="&lt;" data-suffix="%">&lt;10%</span><p class="stat-label">institusi yang disurvei UNESCO memiliki panduan GenAI formal saat itu.</p></div>
+                <p class="stat-source">Temuan UNESCO yang dilaporkan pada 2023; konteks dan responden berbeda dari studi BRIN. <a class="citation" href="#ref-2">[2]</a></p>
+              </article>
+            </div>
+            <div class="data-caveat"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><circle cx="10" cy="10" r="7.5"/><path d="M10 9v5M10 6.2h.01" stroke-linecap="round"/></svg><span>Angka-angka ini berasal dari riset dengan populasi, metode, dan tahun berbeda. Jangan membandingkannya seolah berasal dari satu survei atau mewakili semua mahasiswa.</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Four pillars -->
+    <section class="section" id="pilar" aria-labelledby="pillars-title">
+      <div class="wrap pillars-layout">
+        <div class="pillar-aside reveal">
+          <p class="eyebrow">02 · Kerangka etika</p>
+          <h2 id="pillars-title">Empat pilar. Satu tanggung jawab.</h2>
+          <p class="section-intro">Panduan penggunaan GenAI di perguruan tinggi memberi kerangka yang bisa dipakai mahasiswa dan dosen untuk mengambil keputusan. <a class="citation" href="#ref-1">[1]</a></p>
+          <p class="aside-quote">AI boleh membantu pekerjaanmu. Ia tidak mengambil alih tanggung jawabmu.</p>
+          <p class="small-note">Buka setiap pilar untuk melihat contoh yang dekat dengan tugas kuliah.</p>
+        </div>
+        <div class="pillar-list reveal">
+          <details class="pillar-item" open>
+            <summary><span class="pillar-number">01</span><span><span class="pillar-title">Integritas akademik</span><span class="pillar-subtitle">Jujur tentang proses dan hasil</span></span><svg class="chevron" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="m5 7 5 5 5-5"/></svg></summary>
+            <div class="pillar-body"><p>Integritas berarti karya yang kamu serahkan menggambarkan proses berpikirmu. AI dapat membantu, tetapi jangan menyamarkan kontribusinya atau mengklaim hasil yang tidak kamu pahami.</p><ul><li>Gunakan AI untuk mencari sudut pandang atau menyusun pertanyaan.</li><li>Periksa fakta dan sumber; tulis hasil akhir dengan pemahamanmu sendiri.</li><li>Ikuti aturan dosen dan nyatakan penggunaan AI sesuai kebutuhan tugas.</li></ul><div class="pillar-check"><strong>Tanya diri sendiri</strong>Dapatkah kamu menjelaskan dan mempertanggungjawabkan setiap bagian tugas?</div></div>
+          </details>
+          <details class="pillar-item">
+            <summary><span class="pillar-number">02</span><span><span class="pillar-title">Keamanan dan perlindungan data</span><span class="pillar-subtitle">Jangan jadikan prompt tempat data sensitif</span></span><svg class="chevron" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="m5 7 5 5 5-5"/></svg></summary>
+            <div class="pillar-body"><p>Layanan AI publik dapat menyimpan atau memproses masukan sesuai kebijakan layanannya. Hindari mengunggah data pribadi, riset yang belum dipublikasikan, atau dokumen internal tanpa izin.</p><ul><li>Jangan masukkan nama, surel, nomor telepon, atau jawaban responden yang dapat dikenali.</li><li>Gunakan perangkat dan layanan yang disetujui kampus atau dosen.</li><li>Jika ragu, hentikan dulu dan tanyakan kepada pembimbing.</li></ul><div class="pillar-check"><strong>Contoh</strong>Untuk menganalisis kuesioner, pilih perangkat yang sesuai etik penelitian dan minimalkan data identitas.</div></div>
+          </details>
+          <details class="pillar-item">
+            <summary><span class="pillar-number">03</span><span><span class="pillar-title">Kesetaraan, transparansi, akuntabilitas</span><span class="pillar-subtitle">Akses dan penggunaan perlu dijelaskan</span></span><svg class="chevron" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="m5 7 5 5 5-5"/></svg></summary>
+            <div class="pillar-body"><p>Akses ke perangkat, koneksi, dan layanan berbayar tidak sama. Aturan tugas sebaiknya jelas agar penggunaan AI tidak memberi keuntungan tersembunyi atau menciptakan hambatan bagi mahasiswa lain.</p><ul><li>Terangkan bagian pekerjaan yang dibantu AI.</li><li>Jangan menyajikan teks, analisis, atau gambar AI sebagai hasil mandiri jika itu melanggar aturan tugas.</li><li>Pengajar perlu menjelaskan kapan AI boleh, dibatasi, atau tidak boleh digunakan.</li></ul><div class="pillar-check"><strong>Prinsip praktis</strong>Transparansi yang baik menyebut alat, tujuan, dan bagian yang tetap kamu verifikasi.</div></div>
+          </details>
+          <details class="pillar-item">
+            <summary><span class="pillar-number">04</span><span><span class="pillar-title">Dampak lingkungan</span><span class="pillar-subtitle">Gunakan komputasi dengan pertimbangan</span></span><svg class="chevron" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="m5 7 5 5 5-5"/></svg></summary>
+            <div class="pillar-body"><p>Pelatihan dan penggunaan sistem AI memerlukan komputasi dan energi. Besarnya dampak berbeda menurut model, pusat data, dan pola pemakaian; tidak ada satu angka sederhana yang berlaku untuk semua layanan.</p><ul><li>Pakai AI untuk tujuan yang jelas, bukan mengulang prompt tanpa kebutuhan.</li><li>Utamakan cara yang lebih sederhana jika sudah cukup untuk menyelesaikan tugas.</li><li>Perhatikan dampak sosial dan lingkungan ketika memilih alat.</li></ul><div class="pillar-check"><strong>Pertimbangkan</strong>Apakah AI memberi manfaat yang sepadan dengan data dan sumber daya yang dipakai?</div></div>
+          </details>
+          <p class="small-note">Nilai dasar integritas akademik yang dirumuskan ICAI mencakup kejujuran, kepercayaan, keadilan, rasa hormat, tanggung jawab, dan keberanian. <a class="citation" href="#ref-3">[3]</a></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Timeline / historiography -->
+    <section class="section timeline-section" id="linimasa" aria-labelledby="timeline-title">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <div><p class="eyebrow">03 · Historiografi</p><h2 id="timeline-title">Dari pertanyaan tentang mesin ke aturan di kampus.</h2></div>
+          <p>Sejarah AI bukan garis lurus. Perkembangan kemampuan selalu diikuti pertanyaan tentang kepercayaan, tanggung jawab, dan batas penggunaan.</p>
+        </div>
+        <div class="timeline-note reveal"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M10 2.5v15M4 6h12M4 14h12"/><circle cx="10" cy="6" r="1.6" fill="currentColor"/><circle cx="10" cy="14" r="1.6" fill="currentColor"/></svg><span>Pilih satu peristiwa untuk membaca maknanya. Linimasa ini adalah peta ringkas, bukan daftar lengkap sejarah AI.</span></div>
+        <ol class="timeline" id="timelineList">
+          <li class="timeline-item reveal"><span class="timeline-year">1950</span><div class="timeline-card"><button class="timeline-trigger" type="button" aria-expanded="false" aria-controls="time-1950"><span><strong>Turing mengajukan pertanyaan tentang mesin berpikir</strong><small>Esai “Computing Machinery and Intelligence”</small></span><svg class="chevron" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="m5 7 5 5 5-5"/></svg></button><div class="timeline-detail" id="time-1950" hidden><p>Alan Turing menggeser pertanyaan dari “bisakah mesin berpikir?” ke cara menilai perilaku cerdas. Tulisan ini menjadi salah satu titik awal diskusi modern tentang kecerdasan mesin. <a class="citation" href="#ref-7">[7]</a></p><p><strong>Hubungannya dengan kampus:</strong> keluaran yang terdengar meyakinkan belum membuktikan pemahaman atau kebenaran.</p></div></div></li>
+          <li class="timeline-item reveal"><span class="timeline-year">1956</span><div class="timeline-card"><button class="timeline-trigger" type="button" aria-expanded="false" aria-controls="time-1956"><span><strong>Lokakarya Dartmouth menamai bidang “Artificial Intelligence”</strong><small>AI mulai diperlakukan sebagai agenda riset tersendiri</small></span><svg class="chevron" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="m5 7 5 5 5-5"/></svg></button><div class="timeline-detail" id="time-1956" hidden><p>Proposal lokakarya Dartmouth pada 1955 menggunakan istilah “artificial intelligence”; lokakarya berlangsung pada musim panas 1956 dan sering dianggap sebagai tonggak lahirnya bidang ini. <a class="citation" href="#ref-8">[8]</a></p><p><strong>Hubungannya dengan kampus:</strong> sejak awal, AI berkembang melalui penelitian, perdebatan, dan institusi akademik.</p></div></div></li>
+          <li class="timeline-item reveal"><span class="timeline-year">1966</span><div class="timeline-card"><button class="timeline-trigger" type="button" aria-expanded="false" aria-controls="time-1966"><span><strong>ELIZA memperlihatkan daya tarik percakapan dengan mesin</strong><small>Program dialog karya Joseph Weizenbaum</small></span><svg class="chevron" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="m5 7 5 5 5-5"/></svg></button><div class="timeline-detail" id="time-1966" hidden><p>ELIZA meniru pola percakapan, meski pemahamannya sangat terbatas. Reaksi pengguna mengingatkan bahwa manusia dapat memberi makna berlebih pada respons mesin. <a class="citation" href="#ref-9">[9]</a></p><p><strong>Hubungannya dengan kampus:</strong> kelancaran bahasa bukan jaminan bahwa informasi atau penalaran sistem dapat dipercaya.</p></div></div></li>
+          <li class="timeline-item reveal"><span class="timeline-year">1997</span><div class="timeline-card"><button class="timeline-trigger" type="button" aria-expanded="false" aria-controls="time-1997"><span><strong>Deep Blue mengalahkan Garry Kasparov</strong><small>Komputasi khusus unggul dalam catur tingkat tinggi</small></span><svg class="chevron" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="m5 7 5 5 5-5"/></svg></button><div class="timeline-detail" id="time-1997" hidden><p>Komputer IBM Deep Blue menang dalam pertandingan catur melawan juara dunia Garry Kasparov. Keberhasilan pada satu tugas khusus tidak berarti mesin memahami dunia seperti manusia. <a class="citation" href="#ref-10">[10]</a></p><p><strong>Hubungannya dengan kampus:</strong> evaluasi AI harus sesuai konteks dan tujuan tugas, bukan sekadar kesan “cerdas”.</p></div></div></li>
+          <li class="timeline-item reveal"><span class="timeline-year">2012</span><div class="timeline-card"><button class="timeline-trigger" type="button" aria-expanded="false" aria-controls="time-2012"><span><strong>AlexNet menandai lonjakan deep learning</strong><small>Jaringan saraf dalam mencapai hasil penting pada ImageNet</small></span><svg class="chevron" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="m5 7 5 5 5-5"/></svg></button><div class="timeline-detail" id="time-2012" hidden><p>AlexNet menunjukkan capaian kuat pada pengenalan gambar dengan jaringan saraf dalam dan komputasi GPU. Keberhasilan ini mempercepat perkembangan metode deep learning. <a class="citation" href="#ref-11">[11]</a></p><p><strong>Hubungannya dengan kampus:</strong> kemampuan baru membawa manfaat sekaligus kebutuhan baru untuk menguji bias, data, dan batas sistem.</p></div></div></li>
+          <li class="timeline-item reveal"><span class="timeline-year">2022</span><div class="timeline-card"><button class="timeline-trigger" type="button" aria-expanded="false" aria-controls="time-2022"><span><strong>ChatGPT dibuka untuk publik</strong><small>Antarmuka percakapan membuat GenAI mudah dicoba</small></span><svg class="chevron" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="m5 7 5 5 5-5"/></svg></button><div class="timeline-detail" id="time-2022" hidden><p>OpenAI memperkenalkan ChatGPT sebagai “research preview” pada 30 November 2022. Kemudahan akses memperluas penggunaan model generatif untuk menulis, merangkum, dan berdialog. <a class="citation" href="#ref-12">[12]</a></p><p><strong>Hubungannya dengan kampus:</strong> dosen dan mahasiswa perlu membicarakan aturan penggunaan, bukan mengandalkan tebakan.</p></div></div></li>
+          <li class="timeline-item reveal"><span class="timeline-year">2023</span><div class="timeline-card"><button class="timeline-trigger" type="button" aria-expanded="false" aria-controls="time-2023"><span><strong>UNESCO menerbitkan panduan GenAI untuk pendidikan</strong><small>Pendekatan berpusat pada manusia</small></span><svg class="chevron" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="m5 7 5 5 5-5"/></svg></button><div class="timeline-detail" id="time-2023" hidden><p>UNESCO membahas privasi, kesetaraan, validasi pedagogis, hak cipta, dan perlunya perlindungan yang berpusat pada manusia. Panduan ini juga menekankan bahwa GenAI dapat menghasilkan informasi yang tidak andal. <a class="citation" href="#ref-2">[2]</a></p><p><strong>Hubungannya dengan kampus:</strong> gunakan AI untuk memperkuat pembelajaran, bukan menggantikan relasi dan penilaian manusia.</p></div></div></li>
+          <li class="timeline-item reveal"><span class="timeline-year">2024</span><div class="timeline-card"><button class="timeline-trigger" type="button" aria-expanded="false" aria-controls="time-2024a"><span><strong>EU AI Act disahkan</strong><small>Regulasi berbasis tingkat risiko, termasuk penggunaan tertentu di pendidikan</small></span><svg class="chevron" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="m5 7 5 5 5-5"/></svg></button><div class="timeline-detail" id="time-2024a" hidden><p>Regulation (EU) 2024/1689 menggolongkan sejumlah penggunaan AI dalam pendidikan—misalnya untuk akses, penempatan, atau evaluasi hasil belajar dalam kondisi yang ditentukan—sebagai berisiko tinggi. <a class="citation" href="#ref-4">[4]</a></p><p><strong>Catatan:</strong> ini regulasi Uni Eropa, bukan hukum yang otomatis berlaku di Indonesia. Ia memberi contoh pentingnya pengawasan manusia.</p></div></div></li>
+          <li class="timeline-item reveal"><span class="timeline-year">2024</span><div class="timeline-card"><button class="timeline-trigger" type="button" aria-expanded="false" aria-controls="time-2024b"><span><strong>UNESCO merilis kerangka kompetensi AI</strong><small>Kompetensi bagi siswa dan pendidik</small></span><svg class="chevron" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="m5 7 5 5 5-5"/></svg></button><div class="timeline-detail" id="time-2024b" hidden><p>Kerangka kompetensi UNESCO membahas pemahaman AI, etika, pendekatan berpusat pada manusia, serta penggunaan dan desain sistem. <a class="citation" href="#ref-6">[6]</a></p><p><strong>Hubungannya dengan kampus:</strong> literasi AI bukan hanya tahu cara menulis prompt; ia juga mencakup penilaian, etika, dan tanggung jawab.</p></div></div></li>
+          <li class="timeline-item reveal"><span class="timeline-year">2024</span><div class="timeline-card"><button class="timeline-trigger" type="button" aria-expanded="false" aria-controls="time-2024c"><span><strong>Indonesia menerbitkan panduan GenAI untuk perguruan tinggi</strong><small>Empat pilar untuk pembelajaran tinggi</small></span><svg class="chevron" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="m5 7 5 5 5-5"/></svg></button><div class="timeline-detail" id="time-2024c" hidden><p>Panduan Kemdikbudristek merangkum integritas akademik, perlindungan data, kesetaraan/transparansi/akuntabilitas, dan dampak lingkungan. <a class="citation" href="#ref-1">[1]</a></p><p><strong>Hubungannya dengan kampus:</strong> kebijakan tugas dan praktik penggunaan AI perlu disampaikan dengan jelas.</p></div></div></li>
+          <li class="timeline-item reveal"><span class="timeline-year">2025</span><div class="timeline-card"><button class="timeline-trigger" type="button" aria-expanded="false" aria-controls="time-2025"><span><strong>Kewajiban literasi AI dalam EU AI Act mulai berlaku</strong><small>Pasal 4 mulai berlaku pada Februari 2025</small></span><svg class="chevron" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="m5 7 5 5 5-5"/></svg></button><div class="timeline-detail" id="time-2025" hidden><p>Pasal 4 meminta penyedia dan pengguna profesional mengambil langkah untuk memastikan tingkat literasi AI yang memadai bagi staf dan orang yang mengoperasikan sistem atas nama mereka. Jadwal penerapan pasal lainnya berbeda. <a class="citation" href="#ref-4">[4]</a></p><p><strong>Hubungannya dengan kampus:</strong> memahami batas alat menjadi bagian dari penggunaan yang bertanggung jawab.</p></div></div></li>
+          <li class="timeline-item reveal"><span class="timeline-year">2026</span><div class="timeline-card"><button class="timeline-trigger" type="button" aria-expanded="false" aria-controls="time-2026"><span><strong>Fokus bergeser: dari “boleh atau tidak” ke “bagaimana bertanggung jawab”</strong><small>Kebijakan, verifikasi, privasi, dan agensi manusia</small></span><svg class="chevron" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="m5 7 5 5 5-5"/></svg></button><div class="timeline-detail" id="time-2026" hidden><p>Di kelas, jawaban praktis tetap bergantung pada tujuan belajar, instruksi dosen, kebijakan kampus, dan jenis data yang digunakan. Prinsip yang tidak berubah: jangan menyerahkan tanggung jawab penilaian kepada mesin.</p><p><strong>Untuk mahasiswa:</strong> tanyakan aturan tugas, simpan jejak proses kerja, verifikasi keluaran, dan jelaskan bantuan AI secara jujur.</p></div></div></li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- Four issue flip cards -->
+    <section class="section" id="isu" aria-labelledby="issues-title">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <div><p class="eyebrow">04 · Risiko yang perlu dikenali</p><h2 id="issues-title">Bukan cuma soal plagiarisme.</h2></div>
+          <p>Tekan kartu untuk melihat risiko dan tindakan yang lebih bertanggung jawab. Kartu bisa dibuka dengan klik, sentuh, atau keyboard.</p>
+        </div>
+        <div class="issue-grid">
+          <button class="flip-card reveal" type="button" aria-pressed="false" aria-label="Buka rincian: Plagiarisme dan atribusi">
+            <span class="flip-inner"><span class="flip-face flip-front"><span class="issue-index"><span>Risiko 01</span><span>Tekan untuk buka ↗</span></span><span class="issue-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M7 3.8h7l4 4V20H7z"/><path d="M14 4v4h4M9.5 12h6M9.5 15.5h6"/></svg></span><span class="issue-title">Plagiarisme dan atribusi</span><span class="issue-desc">Karya tampak rapi, tetapi kontribusi AI tidak dijelaskan.</span><span class="flip-hint">Lihat risikonya <span aria-hidden="true">→</span></span></span><span class="flip-face flip-back" aria-hidden="true"><span class="issue-index"><span>Yang perlu diingat</span><span>01 / 04</span></span><span class="issue-title">Yang dinilai adalah proses dan klaim kepengarangan.</span><span class="issue-desc">Menyerahkan konten AI seolah dibuat sendiri dapat melanggar aturan tugas. Nyatakan bantuan yang dipakai dan pastikan kamu memahami hasil akhirnya. Panduan Kemdikbudristek [1].</span><span class="flip-hint">Kembali ke depan <span aria-hidden="true">↻</span></span></span></span>
+          </button>
+          <button class="flip-card reveal" type="button" aria-pressed="false" aria-label="Buka rincian: Halusinasi dan sumber palsu">
+            <span class="flip-inner"><span class="flip-face flip-front"><span class="issue-index"><span>Risiko 02</span><span>Tekan untuk buka ↗</span></span><span class="issue-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M12 3 2.8 20h18.4L12 3Z"/><path d="M12 9v5M12 17h.01" stroke-linecap="round"/></svg></span><span class="issue-title">Halusinasi dan sumber palsu</span><span class="issue-desc">AI dapat menyusun jawaban yang meyakinkan tetapi keliru.</span><span class="flip-hint">Lihat risikonya <span aria-hidden="true">→</span></span></span><span class="flip-face flip-back" aria-hidden="true"><span class="issue-index"><span>Yang perlu diingat</span><span>02 / 04</span></span><span class="issue-title">Kelancaran bahasa bukan bukti kebenaran.</span><span class="issue-desc">Model generatif dapat mengarang kutipan, DOI, atau fakta. Buka sumber asli, cocokkan metadata, dan hapus referensi yang tidak bisa diverifikasi. UNESCO [2].</span><span class="flip-hint">Kembali ke depan <span aria-hidden="true">↻</span></span></span></span>
+          </button>
+          <button class="flip-card reveal" type="button" aria-pressed="false" aria-label="Buka rincian: Bias dan kesenjangan akses">
+            <span class="flip-inner"><span class="flip-face flip-front"><span class="issue-index"><span>Risiko 03</span><span>Tekan untuk buka ↗</span></span><span class="issue-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><circle cx="8" cy="8" r="3"/><circle cx="17" cy="9" r="2.2"/><path d="M2.8 20c.4-3.4 2.1-5.2 5.2-5.2s4.8 1.8 5.2 5.2M14.5 14.3c3.8-.9 6.2 1.1 6.7 4.7"/></svg></span><span class="issue-title">Bias dan kesenjangan akses</span><span class="issue-desc">Data, bahasa, dan akses alat tidak setara bagi semua.</span><span class="flip-hint">Lihat risikonya <span aria-hidden="true">→</span></span></span><span class="flip-face flip-back" aria-hidden="true"><span class="issue-index"><span>Yang perlu diingat</span><span>03 / 04</span></span><span class="issue-title">Jawaban model tidak netral secara otomatis.</span><span class="issue-desc">Data pelatihan dan desain sistem dapat kurang mewakili kelompok tertentu. Akses layanan berbayar juga tidak merata. Periksa sudut pandang yang hilang; jangan jadikan AI satu-satunya penilai.</span><span class="flip-hint">Kembali ke depan <span aria-hidden="true">↻</span></span></span></span>
+          </button>
+          <button class="flip-card reveal" type="button" aria-pressed="false" aria-label="Buka rincian: Ketergantungan dan hilangnya proses belajar">
+            <span class="flip-inner"><span class="flip-face flip-front"><span class="issue-index"><span>Risiko 04</span><span>Tekan untuk buka ↗</span></span><span class="issue-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M12 3v4M5.6 5.6l2.8 2.8M3 12h4M5.6 18.4l2.8-2.8M12 17v4M16 8l2.4-2.4M17 12h4M16 16l2.4 2.4"/><circle cx="12" cy="12" r="4"/></svg></span><span class="issue-title">Ketergantungan dan jalan pintas</span><span class="issue-desc">Jawaban cepat bisa mengurangi kesempatan berlatih.</span><span class="flip-hint">Lihat risikonya <span aria-hidden="true">→</span></span></span><span class="flip-face flip-back" aria-hidden="true"><span class="issue-index"><span>Yang perlu diingat</span><span>04 / 04</span></span><span class="issue-title">Jika AI selalu memulai, kapan kamu berlatih?</span><span class="issue-desc">Gunakan AI setelah mencoba sendiri, atau minta penjelasan dan umpan balik alih-alih jawaban jadi. Simpan draf dan catatan untuk menunjukkan proses belajarmu.</span><span class="flip-hint">Kembali ke depan <span aria-hidden="true">↻</span></span></span></span>
+          </button>
+        </div>
+        <p class="sr-only" id="flipStatus" role="status" aria-live="polite"></p>
+        <p class="issue-footnote reveal"><strong>Catatan tentang deteksi:</strong> skor kemiripan atau deteksi AI sebaiknya tidak diperlakukan sebagai bukti tunggal. Periksa konteks, proses kerja, sumber, dan beri ruang dialog sebelum menarik kesimpulan.</p>
+      </div>
+    </section>
+
+    <!-- Quiz -->
+    <section class="section quiz-section" id="simulasi" aria-labelledby="quiz-title">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <div><p class="eyebrow">05 · Simulasi keputusan</p><h2 id="quiz-title">Kamu di situasi ini.</h2></div>
+          <p>Pilih tindakan yang paling bertanggung jawab. Tidak semua kasus punya jawaban hitam-putih; baca umpan baliknya sebelum lanjut.</p>
+        </div>
+        <div class="quiz-shell reveal">
+          <div class="quiz-panel" id="quizPanel">
+            <div class="quiz-top"><span class="quiz-kicker">Studi kasus mahasiswa</span><div class="quiz-progress-wrap"><span id="quizCount">Soal 1 dari 5</span><span class="quiz-progress-track" aria-hidden="true"><span id="quizProgress"></span></span></div></div>
+            <div id="quizContent" aria-live="polite" aria-atomic="true"></div>
+          </div>
+          <aside class="quiz-side" aria-label="Petunjuk simulasi">
+            <span class="tag">Cara bermain</span>
+            <div class="side-number"><span id="liveScore">0</span><small> / 10 poin</small></div>
+            <div><h3>Nilai keputusan, bukan hafalan.</h3><p>Pilih satu respons. Baca alasannya. Skor adalah bahan refleksi, bukan penilaian akademik.</p></div>
+            <div class="quiz-side-rule"></div>
+            <p class="small-note" style="color:#cbd6e1">Dasar umpan balik: panduan Kemdikbudristek, UNESCO, dan EU AI Act untuk konteks yang relevan.</p>
+          </aside>
+        </div>
+        <p class="quiz-note">Simulasi ini untuk belajar. Kebijakan dosen dan kampus tetap menjadi acuan tugas yang sebenarnya.</p>
+      </div>
+    </section>
+
+    <!-- Practical guide -->
+    <section class="section" id="praktik" aria-labelledby="practice-title">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <div><p class="eyebrow">06 · Panduan praktis</p><h2 id="practice-title">Pakai AI tanpa melepas kendali.</h2></div>
+          <p>Aturan setiap tugas bisa berbeda. Jika instruksi dosen belum jelas, tanyakan sebelum menggunakan AI untuk pekerjaan yang dinilai.</p>
+        </div>
+        <div class="practice-grid reveal">
+          <article class="card practice-card practice-good">
+            <h3><span class="practice-icon" aria-hidden="true">✓</span>Boleh, dengan batas yang jelas</h3>
+            <ul class="practice-list">
+              <li><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m4 10 4 4 8-9"/></svg><span>Brainstorming ide atau menyusun pertanyaan awal.</span></li>
+              <li><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m4 10 4 4 8-9"/></svg><span>Meminta penjelasan konsep, lalu membandingkannya dengan bahan kuliah.</span></li>
+              <li><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m4 10 4 4 8-9"/></svg><span>Memeriksa ejaan atau meminta umpan balik pada draf jika aturan tugas mengizinkan.</span></li>
+              <li><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m4 10 4 4 8-9"/></svg><span>Menggunakan AI sebagai titik awal, kemudian memeriksa sumber dan mengambil keputusan sendiri.</span></li>
+            </ul>
+            <div class="condition-box"><strong>Syarat:</strong> pahami hasilnya, verifikasi klaim dan sumber, lindungi data, serta nyatakan penggunaan AI sesuai instruksi.</div>
+          </article>
+          <article class="card practice-card practice-bad">
+            <h3><span class="practice-icon" aria-hidden="true">×</span>Hindari tindakan ini</h3>
+            <ul class="practice-list">
+              <li><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m5 5 10 10M15 5 5 15"/></svg><span>Menyerahkan keluaran AI sebagai karya sendiri jika tugas menuntut pekerjaan mandiri.</span></li>
+              <li><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m5 5 10 10M15 5 5 15"/></svg><span>Mengutip referensi yang belum dibuka atau belum dipastikan keberadaannya.</span></li>
+              <li><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m5 5 10 10M15 5 5 15"/></svg><span>Mengunggah data pribadi, rahasia, atau data riset tanpa izin dan perlindungan yang memadai.</span></li>
+              <li><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m5 5 10 10M15 5 5 15"/></svg><span>Menyembunyikan bantuan AI ketika aturan tugas meminta deklarasi.</span></li>
+            </ul>
+            <div class="condition-box"><strong>Ingat:</strong> AI tidak dapat memikul tanggung jawab akademik atas jawaban yang kamu serahkan.</div>
+          </article>
+        </div>
+        <div class="declaration-box reveal">
+          <div class="declaration-head"><div><h3>Contoh deklarasi penggunaan AI</h3><p>Sesuaikan dengan apa yang benar-benar kamu lakukan dan dengan format yang diminta dosen.</p></div><button class="btn btn-small" id="copyDeclaration" type="button"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><rect x="7" y="7" width="10" height="10" rx="1.5"/><path d="M13 7V4.5A1.5 1.5 0 0 0 11.5 3h-7A1.5 1.5 0 0 0 3 4.5v7A1.5 1.5 0 0 0 4.5 13H7"/></svg>Salin contoh</button></div>
+          <p class="declaration-text" id="declarationText">Saya menggunakan [nama alat AI] untuk [tujuan penggunaan]. Saya memeriksa kembali fakta dan sumber, menyunting hasilnya, serta bertanggung jawab atas versi akhir tugas ini.</p>
+          <p class="live-status" id="copyStatus" role="status" aria-live="polite"></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Reflection and pledge -->
+    <section class="section pledge-section" id="refleksi" aria-labelledby="pledge-title">
+      <div class="wrap">
+        <div class="pledge-grid">
+          <div class="pledge-intro reveal">
+            <p class="eyebrow">07 · Refleksi</p>
+            <h2 id="pledge-title">Janji integritas.</h2>
+            <p class="section-intro">Pilih nilai yang ingin kamu bawa saat memakai AI. Ini bukan sertifikat; anggap sebagai pengingat pribadi.</p>
+            <blockquote>“Integritas bukan soal tidak ketahuan. Ini soal tetap bisa menatap karya sendiri sebagai karya yang jujur.”</blockquote>
+            <p class="small-note">Enam nilai ini merujuk pada kerangka International Center for Academic Integrity. <a class="citation" href="#ref-3">[3]</a></p>
+          </div>
+          <form class="card pledge-form reveal" id="pledgeForm">
+            <fieldset>
+              <legend>Nilai yang ingin kamu pegang</legend>
+              <p class="form-help">Pilih satu atau lebih. Kartu refleksi akan memuat pilihanmu.</p>
+              <div class="value-grid">
+                <label class="value-option"><input type="checkbox" name="value" value="Kejujuran"><span>Kejujuran</span></label>
+                <label class="value-option"><input type="checkbox" name="value" value="Kepercayaan"><span>Kepercayaan</span></label>
+                <label class="value-option"><input type="checkbox" name="value" value="Keadilan"><span>Keadilan</span></label>
+                <label class="value-option"><input type="checkbox" name="value" value="Rasa hormat"><span>Rasa hormat</span></label>
+                <label class="value-option"><input type="checkbox" name="value" value="Tanggung jawab"><span>Tanggung jawab</span></label>
+                <label class="value-option"><input type="checkbox" name="value" value="Keberanian"><span>Keberanian</span></label>
+              </div>
+            </fieldset>
+            <label class="name-field" for="pledgeName"><span>Nama (opsional)</span><input id="pledgeName" name="name" type="text" maxlength="60" autocomplete="name" placeholder="Tulis nama yang ingin ditampilkan"></label>
+            <button class="btn" type="submit">Buat kartu refleksi <span aria-hidden="true">→</span></button>
+            <p class="live-status" id="pledgeStatus" role="status" aria-live="polite"></p>
+          </form>
+        </div>
+
+        <article class="pledge-card" id="pledgeCard" hidden aria-labelledby="pledgeCardTitle">
+          <div class="pledge-card-top"><span class="pledge-mark"><span class="brand-mark" aria-hidden="true">TT</span>Terus Terang</span><span class="pledge-date" id="pledgeDate"></span></div>
+          <h3 id="pledgeCardTitle" tabindex="-1">Komitmen integritas akademik</h3>
+          <p class="pledge-person" id="pledgePerson"></p>
+          <p class="pledge-message">Saya berkomitmen menggunakan AI secara jujur, kritis, dan bertanggung jawab. Saya akan memeriksa hasilnya dan bertanggung jawab atas karya yang saya serahkan.</p>
+          <p class="small-note" style="margin-bottom:.4rem"><strong>Nilai yang saya pilih:</strong></p>
+          <ul class="pledge-values" id="pledgeValues"></ul>
+          <div class="pledge-footer"><span>Refleksi belajar · Etika &amp; Integritas AI</span><span>Bukan sertifikat resmi</span></div>
+          <div class="pledge-actions"><button class="btn btn-small" type="button" id="downloadPledge">Unduh sebagai PNG</button><button class="btn btn-small btn-secondary" type="button" id="printPledge">Cetak kartu</button></div>
+        </article>
+        <canvas id="pledgeCanvas" class="sr-only" width="1200" height="720" aria-hidden="true"></canvas>
+      </div>
+    </section>
+
+    <!-- Transparent AI disclosure -->
+    <section class="section" id="transparansi" aria-labelledby="transparency-title">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <div><p class="eyebrow">08 · Keterbukaan</p><h2 id="transparency-title">AI dalam pembuatan web ini.</h2></div>
+          <p>Topik ini menuntut praktik yang sama dengan yang dijelaskan. Karena itu, peran AI dan tanggung jawab penyusun perlu disebutkan secara terbuka.</p>
+        </div>
+        <div class="transparency-panel reveal">
+          <span class="transparency-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M12 3 4 6v5c0 5 3.4 8.2 8 10 4.6-1.8 8-5 8-10V6l-8-3Z"/><path d="m8.5 12 2.2 2.2 4.8-5"/></svg></span>
+          <div>
+            <h3>Deklarasi awal proses</h3>
+            <p>AI digunakan sebagai <em>thought partner</em> untuk membantu menyusun struktur pembelajaran, mengorganisasi riset awal, dan membuat draf kode prototipe. Keputusan akhir tentang isi, pemilihan sumber, dan penggunaan file tetap menjadi tanggung jawab penyusun.</p>
+            <p>Prototipe ini tidak menganggap keluaran AI sebagai sumber akademik. Klaim dan tautan perlu diperiksa terhadap dokumen rujukan, dan deklarasi ini perlu disesuaikan jika proses pengerjaan mahasiswa berbeda.</p>
+            <div class="review-callout"><strong>Sebelum dikumpulkan:</strong> periksa kembali angka, konteks survei, tautan, serta aturan dosen. Ubah bagian deklarasi ini agar tepat menggambarkan kontribusi AI dan pekerjaan yang benar-benar kamu lakukan.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- References -->
+    <section class="section references-section" id="referensi" aria-labelledby="references-title">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <div><p class="eyebrow">09 · Daftar pustaka</p><h2 id="references-title">Baca sumbernya langsung.</h2></div>
+          <p>Sumber primer menjadi acuan utama untuk kerangka etika dan sejarah. Angka survei diberi batas konteks agar tidak dibaca sebagai gambaran semua mahasiswa.</p>
+        </div>
+        <ol class="references-list">
+          <li class="reference-item reveal" id="ref-1"><span class="ref-number">01</span><p><strong>Kementerian Pendidikan, Kebudayaan, Riset, dan Teknologi.</strong> (2024). <em>Panduan Penggunaan Generative AI pada Pembelajaran di Perguruan Tinggi.</em><br><a href="https://lldikti3.kemdiktisaintek.go.id/wp-content/uploads/2024/11/Buku-Panduan-_-Penggunaan-Generative-AI-pada-Pembelajaran-di-Perguruan-Tinggi-cetak.pdf" target="_blank" rel="noopener noreferrer">Buka panduan (PDF)</a></p></li>
+          <li class="reference-item reveal" id="ref-2"><span class="ref-number">02</span><p><strong>Miao, F., &amp; Holmes, W. (UNESCO).</strong> (2023). <em>Guidance for Generative AI in Education and Research.</em><br><a href="https://unesdoc.unesco.org/ark:/48223/pf0000386693" target="_blank" rel="noopener noreferrer">Buka dokumen UNESCO</a></p></li>
+          <li class="reference-item reveal" id="ref-3"><span class="ref-number">03</span><p><strong>International Center for Academic Integrity.</strong> <em>The Fundamental Values of Academic Integrity.</em><br><a href="https://academicintegrity.org/resources/fundamental-values" target="_blank" rel="noopener noreferrer">Buka kerangka enam nilai ICAI</a></p></li>
+          <li class="reference-item reveal" id="ref-4"><span class="ref-number">04</span><p><strong>European Union.</strong> (2024). <em>Regulation (EU) 2024/1689 (Artificial Intelligence Act).</em> EUR-Lex.<br><a href="https://eur-lex.europa.eu/eli/reg/2024/1689/oj/eng" target="_blank" rel="noopener noreferrer">Buka teks resmi peraturan</a></p></li>
+          <li class="reference-item reveal" id="ref-5"><span class="ref-number">05</span><p><strong>Indoraya.news.</strong> (2025). Laporan media tentang paparan riset BRIN terkait penggunaan ChatGPT oleh mahasiswa PTKIN. Data yang dikutip berasal dari 293 mahasiswa di 17 PTKIN; bukan estimasi nasional.<br><a href="https://indoraya.news/brin-ungkap-90-persen-mahasiswa-aktif-gunakan-chatgpt-risiko-turunkan-berpikir-kritis-dan-picu-plagiarisme" target="_blank" rel="noopener noreferrer">Buka laporan media</a></p></li>
+          <li class="reference-item reveal" id="ref-6"><span class="ref-number">06</span><p><strong>UNESCO.</strong> (2024). <em>AI Competency Frameworks for Students and Teachers.</em><br><a href="https://www.unesco.org/en/digital-education/ai-future-learning/competency-frameworks" target="_blank" rel="noopener noreferrer">Buka kerangka kompetensi AI</a></p></li>
+          <li class="reference-item reveal" id="ref-7"><span class="ref-number">07</span><p><strong>Turing, A. M.</strong> (1950). “Computing Machinery and Intelligence.” <em>Mind, 59</em>(236), 433–460.<br><a href="https://doi.org/10.1093/mind/LIX.236.433" target="_blank" rel="noopener noreferrer">Buka DOI artikel</a></p></li>
+          <li class="reference-item reveal" id="ref-8"><span class="ref-number">08</span><p><strong>Dartmouth College.</strong> <em>Artificial Intelligence: The 1956 Dartmouth Summer Research Project.</em> Laman sejarah institusi.<br><a href="https://home.dartmouth.edu/about/artificial-intelligence-ai-coined-dartmouth" target="_blank" rel="noopener noreferrer">Buka catatan Dartmouth</a></p></li>
+          <li class="reference-item reveal" id="ref-9"><span class="ref-number">09</span><p><strong>Weizenbaum, J.</strong> (1966). “ELIZA—A Computer Program for the Study of Natural Language Communication Between Man and Machine.” <em>Communications of the ACM, 9</em>(1), 36–45.<br><a href="https://doi.org/10.1145/365153.365168" target="_blank" rel="noopener noreferrer">Buka DOI artikel</a></p></li>
+          <li class="reference-item reveal" id="ref-10"><span class="ref-number">10</span><p><strong>IBM.</strong> <em>Deep Blue.</em> Arsip sejarah teknologi IBM.<br><a href="https://www.ibm.com/history/deep-blue" target="_blank" rel="noopener noreferrer">Buka catatan IBM</a></p></li>
+          <li class="reference-item reveal" id="ref-11"><span class="ref-number">11</span><p><strong>Krizhevsky, A., Sutskever, I., &amp; Hinton, G. E.</strong> (2012). “ImageNet Classification with Deep Convolutional Neural Networks.” <em>Advances in Neural Information Processing Systems.</em><br><a href="https://arxiv.org/abs/1207.0580" target="_blank" rel="noopener noreferrer">Buka naskah di arXiv</a></p></li>
+          <li class="reference-item reveal" id="ref-12"><span class="ref-number">12</span><p><strong>OpenAI.</strong> (2022). <em>Introducing ChatGPT.</em><br><a href="https://openai.com/index/chatgpt/" target="_blank" rel="noopener noreferrer">Buka pengumuman peluncuran</a></p></li>
+        </ol>
+        <p class="sources-note"><strong>Catatan akademik:</strong> satu laporan media mengenai riset BRIN dipakai sebagai konteks terbatas, bukan bukti bahwa angka tersebut mewakili semua mahasiswa. Periksa dokumen dan kebijakan kampus yang paling mutakhir sebelum memakai informasi ini dalam tugas formal.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap footer-inner"><p>Terus Terang · Prototipe pembelajaran UTS · Program Studi Teknologi Pendidikan · 2026</p><div class="footer-links"><a href="#top">Kembali ke atas ↑</a><a href="#referensi">Daftar pustaka</a></div></div>
+  </footer>
+
+  <script>
+    /* =========================================================
+       Interaksi: progres, menu, reveal, timeline, quiz, refleksi
+       ========================================================= */
+    (function () {
+      'use strict';
+      const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const readingBar = document.querySelector('.reading-progress');
+      const readingFill = document.getElementById('readingFill');
+      let scrollPending = false;
+
+      function updateReadingProgress() {
+        const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+        const progress = maxScroll > 0 ? Math.min(100, Math.max(0, (window.scrollY / maxScroll) * 100)) : 0;
+        readingFill.style.width = progress + '%';
+        readingBar.setAttribute('aria-valuenow', String(Math.round(progress)));
+        const timeline = document.getElementById('timelineList');
+        if (timeline) {
+          const rect = timeline.getBoundingClientRect();
+          const total = rect.height + window.innerHeight * .65;
+          const traveled = Math.max(0, Math.min(total, window.innerHeight * .65 - rect.top));
+          timeline.style.setProperty('--timeline-progress', (total ? traveled / total * 100 : 0) + '%');
+        }
+        scrollPending = false;
+      }
+      window.addEventListener('scroll', function () {
+        if (!scrollPending) {
+          scrollPending = true;
+          window.requestAnimationFrame(updateReadingProgress);
+        }
+      }, { passive: true });
+      window.addEventListener('resize', updateReadingProgress);
+      updateReadingProgress();
+
+      // Mobile navigation
+      const menuToggle = document.getElementById('menuToggle');
+      const primaryNav = document.getElementById('primaryNav');
+      if (menuToggle && primaryNav) {
+        menuToggle.addEventListener('click', function () {
+          const open = menuToggle.getAttribute('aria-expanded') === 'true';
+          menuToggle.setAttribute('aria-expanded', String(!open));
+          menuToggle.setAttribute('aria-label', open ? 'Buka navigasi' : 'Tutup navigasi');
+          primaryNav.classList.toggle('is-open', !open);
+        });
+        primaryNav.querySelectorAll('a').forEach(function (link) {
+          link.addEventListener('click', function () {
+            menuToggle.setAttribute('aria-expanded', 'false');
+            menuToggle.setAttribute('aria-label', 'Buka navigasi');
+            primaryNav.classList.remove('is-open');
+          });
+        });
+        document.addEventListener('keydown', function (event) {
+          if (event.key === 'Escape' && primaryNav.classList.contains('is-open')) {
+            primaryNav.classList.remove('is-open');
+            menuToggle.setAttribute('aria-expanded', 'false');
+            menuToggle.setAttribute('aria-label', 'Buka navigasi');
+            menuToggle.focus();
+          }
+        });
+      }
+
+      // Scroll reveal; content stays visible when IntersectionObserver is unavailable.
+      const revealItems = document.querySelectorAll('.reveal');
+      if ('IntersectionObserver' in window && !reducedMotion) {
+        const revealObserver = new IntersectionObserver(function (entries, observer) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('is-visible');
+              observer.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.12, rootMargin: '0px 0px -35px 0px' });
+        revealItems.forEach(function (item) { revealObserver.observe(item); });
+      } else {
+        revealItems.forEach(function (item) { item.classList.add('is-visible'); });
+      }
+
+      // Count-up statistics, once when visible.
+      const counters = document.querySelectorAll('.counter[data-count]');
+      function animateCounter(element) {
+        if (element.dataset.counted === 'true') return;
+        element.dataset.counted = 'true';
+        const end = Number(element.dataset.count || 0);
+        const prefix = element.dataset.prefix || '';
+        const suffix = element.dataset.suffix || '';
+        const decimals = Number(element.dataset.decimals || 0);
+        const format = function (value) {
+          return value.toLocaleString('id-ID', { minimumFractionDigits: decimals, maximumFractionDigits: decimals });
+        };
+        if (reducedMotion) {
+          element.textContent = prefix + format(end) + suffix;
+          return;
+        }
+        const duration = 850;
+        const startTime = performance.now();
+        function frame(now) {
+          const raw = Math.min(1, (now - startTime) / duration);
+          const eased = 1 - Math.pow(1 - raw, 3);
+          element.textContent = prefix + format(end * eased) + suffix;
+          if (raw < 1) window.requestAnimationFrame(frame);
+          else element.textContent = prefix + format(end) + suffix;
+        }
+        window.requestAnimationFrame(frame);
+      }
+      if ('IntersectionObserver' in window && !reducedMotion) {
+        const counterObserver = new IntersectionObserver(function (entries, observer) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              animateCounter(entry.target);
+              observer.unobserve(entry.target);
+            }
+          });
+        }, { threshold: .55 });
+        counters.forEach(function (counter) { counterObserver.observe(counter); });
+      } else {
+        counters.forEach(animateCounter);
+      }
+
+      // Active section state for navigation
+      const navLinks = Array.from(document.querySelectorAll('.nav-links a[href^="#"]'));
+      const navSections = navLinks.map(function (link) { return document.querySelector(link.getAttribute('href')); }).filter(Boolean);
+      if ('IntersectionObserver' in window) {
+        const navObserver = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (!entry.isIntersecting) return;
+            navLinks.forEach(function (link) { link.classList.toggle('is-active', link.getAttribute('href') === '#' + entry.target.id); });
+          });
+        }, { rootMargin: '-25% 0px -65% 0px' });
+        navSections.forEach(function (section) { navObserver.observe(section); });
+      }
+
+      // Timeline disclosures
+      document.querySelectorAll('.timeline-trigger').forEach(function (button) {
+        button.addEventListener('click', function () {
+          const panel = document.getElementById(button.getAttribute('aria-controls'));
+          const willOpen = button.getAttribute('aria-expanded') !== 'true';
+          button.setAttribute('aria-expanded', String(willOpen));
+          panel.hidden = !willOpen;
+          button.closest('.timeline-item').classList.toggle('is-active', willOpen);
+        });
+      });
+
+      // Issue flip cards: update semantics and announce the detail to screen readers.
+      const flipStatus = document.getElementById('flipStatus');
+      document.querySelectorAll('.flip-card').forEach(function (card) {
+        card.addEventListener('click', function () {
+          const flipped = card.classList.toggle('is-flipped');
+          card.setAttribute('aria-pressed', String(flipped));
+          card.setAttribute('aria-label', (flipped ? 'Kembali ke depan: ' : 'Buka rincian: ') + card.dataset.label);
+          const front = card.querySelector('.flip-front');
+          const back = card.querySelector('.flip-back');
+          front.setAttribute('aria-hidden', String(flipped));
+          back.setAttribute('aria-hidden', String(!flipped));
+          const detail = back.querySelector('.issue-desc');
+          if (flipStatus) flipStatus.textContent = flipped ? card.dataset.label + '. ' + detail.textContent : card.dataset.label + ' — ringkasan ditampilkan.';
+        });
+        const title = card.querySelector('.flip-front .issue-title');
+        card.dataset.label = title ? title.textContent.trim() : 'kartu';
+      });
+
+      // Five scenario learning simulation
+      const quizData = [
+        {
+          title: 'Deadline besok pagi',
+          situation: 'Tugas esai dikumpulkan pukul 08.00. Pukul 23.00, kamu belum menyelesaikan kesimpulan. Teman menyarankan agar ChatGPT menuliskannya.',
+          options: [
+            { text: 'Salin kesimpulan dari AI dan kumpulkan apa adanya.', points: 0 },
+            { text: 'Minta bantuan membuat kerangka, pahami idenya, tulis kesimpulan sendiri, lalu periksa fakta dan aturan tugas.', points: 2 },
+            { text: 'Ubah beberapa kata agar tidak terlihat seperti keluaran AI, lalu kumpulkan tanpa deklarasi.', points: 0 },
+            { text: 'Kumpulkan tugas dengan bagian yang belum selesai dan jelaskan kondisinya kepada dosen.', points: 1 }
+          ],
+          feedback: {
+            2: ['Pilihan bertanggung jawab.', 'AI dipakai sebagai bantuan, tetapi penalaran dan tanggung jawab tetap milikmu. Pastikan penggunaan itu sesuai instruksi dosen dan jelaskan jika diminta.'],
+            1: ['Jujur, tetapi masih ada langkah yang bisa diperbaiki.', 'Menyampaikan keterbatasan lebih baik daripada menyamarkan hasil. Jika bantuan AI diizinkan, gunakan secara terbatas, verifikasi, dan deklarasikan sesuai aturan.'],
+            0: ['Tidak tepat.', 'Mengganti beberapa kata tidak mengubah sumber gagasan atau menyelesaikan masalah atribusi. Jangan menyajikan keluaran AI sebagai karya mandiri.']
+          }
+        },
+        {
+          title: 'Data skripsi di layanan AI',
+          situation: 'Kamu ingin menganalisis 200 jawaban kuesioner. Berkasnya masih memuat nama dan alamat surel responden.',
+          options: [
+            { text: 'Unggah seluruh berkas ke AI publik agar analisis lebih cepat.', points: 0 },
+            { text: 'Hapus nama, tetapi unggah seluruh jawaban dan detail lain tanpa mengecek risiko identifikasi.', points: 1 },
+            { text: 'Jangan unggah data sensitif. Tanyakan prosedur etik dan gunakan perangkat atau layanan yang disetujui, dengan data seminimal mungkin.', points: 2 },
+            { text: 'Minta AI menebak identitas responden dari jawaban agar data lebih mudah dibaca.', points: 0 }
+          ],
+          feedback: {
+            2: ['Pilihan paling aman.', 'Data responden memerlukan perlindungan. Ikuti persetujuan etik, kebijakan kampus, serta aturan layanan yang dipakai. Menghapus nama saja belum tentu membuat data anonim.'],
+            1: ['Lebih baik, tetapi belum tentu aman.', 'Jawaban, lokasi, atau kombinasi atribut dapat mengidentifikasi seseorang. Minimalkan data dan pastikan alat serta prosedurnya disetujui.'],
+            0: ['Jangan lakukan.', 'Mengunggah data pribadi ke layanan tanpa izin dan perlindungan dapat membahayakan responden. Data penelitian bukan bahan uji coba bebas.']
+          }
+        },
+        {
+          title: 'Sumber yang tidak ditemukan',
+          situation: 'AI memberi tiga referensi jurnal untuk mendukung argumenmu. Setelah dicek, dua judul dan DOI-nya tidak ditemukan.',
+          options: [
+            { text: 'Tetap pakai ketiganya; mungkin basis data pencarianmu belum lengkap.', points: 0 },
+            { text: 'Verifikasi tiap sumber dari laman jurnal atau basis data tepercaya. Gunakan yang valid dan hapus yang tidak terbukti ada.', points: 2 },
+            { text: 'Hapus nama jurnal tetapi pertahankan argumennya tanpa sumber.', points: 1 },
+            { text: 'Cantumkan sumber palsu itu dengan harapan tidak diperiksa.', points: 0 }
+          ],
+          feedback: {
+            2: ['Tepat.', 'Model generatif dapat menghasilkan referensi yang tampak nyata. Tanggung jawab memeriksa sumber ada pada penulis. Jika sumber tidak dapat diverifikasi, jangan mengutipnya.'],
+            1: ['Sebagian benar.', 'Membuang sitasi palsu itu penting. Namun, argumen akademik yang memakai gagasan atau data tertentu tetap memerlukan sumber yang dapat diverifikasi.'],
+            0: ['Tidak dapat dipertanggungjawabkan.', 'Sumber yang tidak ada tidak dapat mendukung klaim. Mengutipnya merusak kepercayaan terhadap tulisanmu.']
+          }
+        },
+        {
+          title: 'Brainstorming yang tidak diminta dosen',
+          situation: 'Kamu menggunakan Gemini untuk brainstorming awal. Semua paragraf akhir kamu tulis sendiri, tetapi instruksi tugas tidak menyebut deklarasi AI.',
+          options: [
+            { text: 'Sembunyikan penggunaan AI karena teks akhirnya ditulis sendiri.', points: 0 },
+            { text: 'Periksa kebijakan mata kuliah. Jika belum jelas, tanyakan; nyatakan penggunaan secara spesifik bila diminta atau bila format tugas menyediakan ruang deklarasi.', points: 2 },
+            { text: 'Cantumkan Gemini sebagai penulis bersama tugas.', points: 0 },
+            { text: 'Tulis deklarasi yang menyebut tujuan brainstorming dan jelaskan bahwa isi akhir telah kamu susun serta periksa.', points: 2 }
+          ],
+          feedback: {
+            2: ['Transparansi perlu spesifik.', 'Deklarasi sebaiknya menggambarkan penggunaan yang sebenarnya. Ikuti kebijakan dosen; jangan membuat klaim yang tidak sesuai proses kerja.'],
+            1: ['Masih perlu diperjelas.', 'Menyamarkan penggunaan bukan solusi. Periksa aturan tugas dan jelaskan bantuan yang digunakan dengan kata-kata yang akurat.'],
+            0: ['Tidak tepat.', 'AI tidak dapat memikul tanggung jawab sebagai penulis akademik. Deklarasikan perannya sebagai alat bantu, jika relevan dengan aturan tugas.']
+          }
+        },
+        {
+          title: 'Nilai dari sistem AI',
+          situation: 'Dosen menyampaikan bahwa sistem AI membantu menilai esai. Nilaimu lebih rendah dari perkiraan dan kamu tidak tahu dasar penilaiannya.',
+          options: [
+            { text: 'Terima saja; sistem AI pasti lebih objektif daripada manusia.', points: 0 },
+            { text: 'Minta penjelasan berdasarkan rubrik dan minta dosen meninjau keputusan akhir sesuai prosedur kampus.', points: 2 },
+            { text: 'Tuntut nilai dinaikkan tanpa meminta alasan atau menunjukkan bukti.', points: 1 },
+            { text: 'Simpulkan bahwa semua penggunaan AI untuk penilaian selalu ilegal.', points: 0 }
+          ],
+          feedback: {
+            2: ['Minta penjelasan dan peninjauan manusia.', 'EU AI Act menggolongkan sejumlah penggunaan AI untuk penilaian atau evaluasi hasil belajar sebagai berisiko tinggi dan menetapkan kewajiban terkait. Cakupannya bergantung pada penggunaan; regulasi ini bukan hukum Indonesia.'],
+            1: ['Pertanyakan hasilnya, tetapi gunakan bukti.', 'Kamu berhak mengajukan pertanyaan. Mengacu pada rubrik dan proses peninjauan akan membuat dialog lebih adil dan produktif.'],
+            0: ['Kesimpulan itu terlalu luas.', 'Tidak semua alat atau penggunaan diperlakukan sama. Periksa kebijakan kampus, minta penjelasan, dan pastikan manusia tetap bertanggung jawab atas keputusan akademik.']
+          }
+        }
+      ];
+      const quizContent = document.getElementById('quizContent');
+      const quizCount = document.getElementById('quizCount');
+      const quizProgress = document.getElementById('quizProgress');
+      const liveScore = document.getElementById('liveScore');
+      let quizIndex = 0;
+      let quizScore = 0;
+      let quizAnswered = false;
+
+      function transitionQuizContent() {
+        quizContent.classList.remove('quiz-enter');
+        void quizContent.offsetWidth;
+        quizContent.classList.add('quiz-enter');
+      }
+      function animateLiveScore(target) {
+        const startValue = Number(liveScore.textContent) || 0;
+        if (reducedMotion || startValue === target) {
+          liveScore.textContent = String(target);
+          return;
+        }
+        liveScore.classList.remove('score-bump');
+        void liveScore.offsetWidth;
+        liveScore.classList.add('score-bump');
+        const startTime = performance.now();
+        function frame(now) {
+          const progress = Math.min(1, (now - startTime) / 360);
+          const eased = 1 - Math.pow(1 - progress, 3);
+          liveScore.textContent = String(Math.round(startValue + (target - startValue) * eased));
+          if (progress < 1) window.requestAnimationFrame(frame);
+          else liveScore.textContent = String(target);
+        }
+        window.requestAnimationFrame(frame);
+      }
+
+      function updateQuizHeader() {
+        const shown = Math.min(quizIndex + 1, quizData.length);
+        quizCount.textContent = quizIndex >= quizData.length ? 'Selesai' : 'Soal ' + shown + ' dari ' + quizData.length;
+        quizProgress.style.width = (quizIndex / quizData.length * 100) + '%';
+        liveScore.textContent = String(quizScore);
+      }
+      function renderQuestion(shouldFocus) {
+        quizAnswered = false;
+        const item = quizData[quizIndex];
+        updateQuizHeader();
+        const letters = ['A', 'B', 'C', 'D'];
+        quizContent.innerHTML = '<h3 class="quiz-question" tabindex="-1">' + item.title + '</h3>' +
+          '<p class="quiz-situation">' + item.situation + '</p>' +
+          '<div class="quiz-options" role="group" aria-label="Pilihan jawaban">' +
+          item.options.map(function (option, i) {
+            return '<button class="quiz-option" type="button" data-option="' + i + '"><span class="option-letter">' + letters[i] + '</span><span class="option-text">' + option.text + '</span></button>';
+          }).join('') + '</div><div id="quizAnswerFeedback"></div><div class="quiz-actions"><span class="quiz-score-live" id="quizScoreLive">Skor sementara: ' + quizScore + ' / 10</span><button class="btn btn-small" id="quizNext" type="button" hidden>Lanjut <span aria-hidden="true">→</span></button></div>';
+        transitionQuizContent();
+        quizContent.querySelectorAll('.quiz-option').forEach(function (button) {
+          button.addEventListener('click', function () { selectAnswer(Number(button.dataset.option)); });
+        });
+        if (shouldFocus) quizContent.querySelector('.quiz-question').focus({ preventScroll: true });
+      }
+      function selectAnswer(optionIndex) {
+        if (quizAnswered) return;
+        quizAnswered = true;
+        const item = quizData[quizIndex];
+        const chosen = item.options[optionIndex];
+        quizScore += chosen.points;
+        animateLiveScore(quizScore);
+        quizContent.querySelectorAll('.quiz-option').forEach(function (button, index) {
+          button.disabled = true;
+          const isStrongChoice = item.options[index].points === 2;
+          if (isStrongChoice) button.classList.add('is-correct');
+          if (index === optionIndex && !isStrongChoice) button.classList.add('is-selected');
+        });
+        const feedback = item.feedback[chosen.points];
+        const tone = chosen.points === 2 ? 'good' : (chosen.points === 1 ? 'mixed' : 'bad');
+        const feedbackBox = document.getElementById('quizAnswerFeedback');
+        feedbackBox.innerHTML = '<div class="quiz-feedback" data-tone="' + tone + '" role="status" tabindex="-1"><strong>' + feedback[0] + '</strong><p>' + feedback[1] + '</p></div>';
+        feedbackBox.firstElementChild.focus({ preventScroll: true });
+        const scoreText = document.getElementById('quizScoreLive');
+        scoreText.textContent = 'Skor sementara: ' + quizScore + ' / 10';
+        const next = document.getElementById('quizNext');
+        next.hidden = false;
+        next.innerHTML = quizIndex === quizData.length - 1 ? 'Lihat hasil <span aria-hidden="true">→</span>' : 'Lanjut <span aria-hidden="true">→</span>';
+        next.addEventListener('click', function () {
+          quizIndex += 1;
+          if (quizIndex < quizData.length) renderQuestion(true);
+          else renderQuizResult();
+          document.getElementById('quiz-title').scrollIntoView({ behavior: reducedMotion ? 'auto' : 'smooth', block: 'start' });
+        }, { once: true });
+      }
+      function renderQuizResult() {
+        updateQuizHeader();
+        quizProgress.style.width = '100%';
+        let heading, message;
+        if (quizScore >= 9) {
+          heading = 'Siap menggunakan AI dengan pertimbangan.';
+          message = 'Kamu konsisten memilih verifikasi, perlindungan data, dan transparansi. Tetap sesuaikan setiap keputusan dengan aturan tugas.';
+        } else if (quizScore >= 6) {
+          heading = 'Kamu sudah dekat. Periksa area abu-abu.';
+          message = 'Sebagian keputusanmu sudah tepat. Baca lagi pilar perlindungan data, deklarasi, dan batas penggunaan AI.';
+        } else {
+          heading = 'Ada beberapa hal yang perlu ditinjau.';
+          message = 'Ulangi empat pilar etika, lalu coba simulasi lagi. Tujuannya bukan mengejar angka, melainkan memperkuat alasan di balik pilihan.';
+        }
+        quizContent.innerHTML = '<div class="quiz-result"><p class="quiz-kicker">Hasil refleksi</p><p class="quiz-result-score">' + quizScore + '<span> / 10 poin</span></p><h3 tabindex="-1">' + heading + '</h3><p>' + message + '</p><button class="btn btn-small" id="quizRestart" type="button">Ulangi simulasi ↻</button></div>';
+        transitionQuizContent();
+        quizContent.querySelector('.quiz-result h3').focus({ preventScroll: true });
+        document.getElementById('quizRestart').addEventListener('click', function () {
+          quizIndex = 0; quizScore = 0; liveScore.textContent = '0'; renderQuestion(true);
+        });
+      }
+      if (quizContent) renderQuestion();
+
+      // Copy declaration with a fallback for local/offline contexts.
+      const copyButton = document.getElementById('copyDeclaration');
+      const copyStatus = document.getElementById('copyStatus');
+      const declarationText = document.getElementById('declarationText');
+      if (copyButton) {
+        copyButton.addEventListener('click', async function () {
+          const text = declarationText.textContent.trim();
+          try {
+            if (navigator.clipboard && window.isSecureContext) {
+              await navigator.clipboard.writeText(text);
+            } else {
+              const temp = document.createElement('textarea');
+              temp.value = text; temp.setAttribute('readonly', '');
+              temp.style.position = 'fixed'; temp.style.opacity = '0';
+              document.body.appendChild(temp); temp.select();
+              document.execCommand('copy'); temp.remove();
+            }
+            copyStatus.textContent = 'Contoh deklarasi disalin. Sesuaikan sebelum digunakan.';
+          } catch (error) {
+            copyStatus.textContent = 'Salin teks deklarasi secara manual.';
+          }
+        });
+      }
+
+      // Personal reflection card: selected values stay in the browser only.
+      const pledgeForm = document.getElementById('pledgeForm');
+      const pledgeStatus = document.getElementById('pledgeStatus');
+      const pledgeCard = document.getElementById('pledgeCard');
+      const pledgeName = document.getElementById('pledgeName');
+      const pledgeDate = document.getElementById('pledgeDate');
+      const pledgePerson = document.getElementById('pledgePerson');
+      const pledgeValues = document.getElementById('pledgeValues');
+      let pledgeState = { name: '', values: [], date: '' };
+      function localDate() {
+        return new Intl.DateTimeFormat('id-ID', { day: 'numeric', month: 'long', year: 'numeric' }).format(new Date());
+      }
+      if (pledgeForm) {
+        pledgeForm.addEventListener('submit', function (event) {
+          event.preventDefault();
+          const values = Array.from(pledgeForm.querySelectorAll('input[name="value"]:checked')).map(function (input) { return input.value; });
+          if (!values.length) {
+            pledgeStatus.textContent = 'Pilih setidaknya satu nilai untuk membuat kartu refleksi.';
+            pledgeForm.querySelector('input[name="value"]').focus();
+            return;
+          }
+          const name = pledgeName.value.trim();
+          const date = localDate();
+          pledgeState = { name: name, values: values, date: date };
+          pledgePerson.textContent = name || 'Mahasiswa/i';
+          pledgeDate.textContent = date;
+          pledgeValues.replaceChildren();
+          values.forEach(function (value) {
+            const item = document.createElement('li');
+            item.textContent = value;
+            pledgeValues.appendChild(item);
+          });
+          pledgeCard.hidden = false;
+          pledgeStatus.textContent = 'Kartu refleksi dibuat di perangkat ini. Nama dan pilihan tidak dikirim ke server.';
+          pledgeCard.scrollIntoView({ behavior: reducedMotion ? 'auto' : 'smooth', block: 'center' });
+          document.getElementById('pledgeCardTitle').focus({ preventScroll: true });
+        });
+      }
+
+      function roundedRect(ctx, x, y, width, height, radius) {
+        const r = Math.min(radius, width / 2, height / 2);
+        ctx.beginPath(); ctx.moveTo(x + r, y); ctx.arcTo(x + width, y, x + width, y + height, r);
+        ctx.arcTo(x + width, y + height, x, y + height, r); ctx.arcTo(x, y + height, x, y, r);
+        ctx.arcTo(x, y, x + width, y, r); ctx.closePath();
+      }
+      function wrapCanvasText(ctx, text, x, y, maxWidth, lineHeight) {
+        const words = text.split(/\s+/); let line = ''; let currentY = y;
+        words.forEach(function (word) {
+          const test = line ? line + ' ' + word : word;
+          if (ctx.measureText(test).width > maxWidth && line) {
+            ctx.fillText(line, x, currentY); line = word; currentY += lineHeight;
+          } else line = test;
+        });
+        if (line) ctx.fillText(line, x, currentY);
+        return currentY + lineHeight;
+      }
+      function drawPledgeCard() {
+        const canvas = document.getElementById('pledgeCanvas');
+        const ctx = canvas.getContext('2d');
+        const w = canvas.width, h = canvas.height;
+        ctx.clearRect(0, 0, w, h);
+        ctx.fillStyle = '#f5f5f1'; ctx.fillRect(0, 0, w, h);
+        roundedRect(ctx, 28, 28, w - 56, h - 56, 30); ctx.fillStyle = '#ffffff'; ctx.fill();
+        ctx.strokeStyle = '#d9ded9'; ctx.lineWidth = 2; ctx.stroke();
+        roundedRect(ctx, 72, 67, 56, 56, 16); ctx.fillStyle = '#d9ef70'; ctx.fill();
+        ctx.fillStyle = '#122a43'; ctx.font = '800 20px system-ui, sans-serif'; ctx.textAlign = 'center'; ctx.fillText('TT', 100, 103); ctx.textAlign = 'left';
+        ctx.fillStyle = '#122a43'; ctx.font = '800 18px system-ui, sans-serif'; ctx.fillText('TERUS TERANG', 148, 91);
+        ctx.fillStyle = '#65717e'; ctx.font = '500 15px system-ui, sans-serif'; ctx.fillText('ETIKA & INTEGRITAS AI', 148, 116);
+        ctx.textAlign = 'right'; ctx.fillStyle = '#65717e'; ctx.font = '500 16px system-ui, sans-serif'; ctx.fillText(pledgeState.date, w - 72, 100); ctx.textAlign = 'left';
+        ctx.strokeStyle = '#d9ded9'; ctx.beginPath(); ctx.moveTo(72, 151); ctx.lineTo(w - 72, 151); ctx.stroke();
+        ctx.fillStyle = '#2457a7'; ctx.font = '800 15px system-ui, sans-serif'; ctx.fillText('KOMITMEN INTEGRITAS AKADEMIK', 72, 201);
+        ctx.fillStyle = '#17202b'; ctx.font = '800 42px system-ui, sans-serif'; ctx.fillText('Belajar dengan jujur.', 72, 263);
+        ctx.fillStyle = '#2457a7'; ctx.font = '700 27px system-ui, sans-serif'; ctx.fillText(pledgeState.name || 'Mahasiswa/i', 72, 314);
+        ctx.fillStyle = '#4d5864'; ctx.font = '500 19px system-ui, sans-serif';
+        let y = wrapCanvasText(ctx, 'Saya berkomitmen menggunakan AI secara jujur, kritis, dan bertanggung jawab. Saya akan memeriksa hasilnya dan bertanggung jawab atas karya yang saya serahkan.', 72, 359, w - 144, 30);
+        y += 18;
+        ctx.fillStyle = '#17202b'; ctx.font = '750 16px system-ui, sans-serif'; ctx.fillText('NILAI YANG SAYA PILIH', 72, y); y += 18;
+        let x = 72; let chipY = y;
+        ctx.font = '650 15px system-ui, sans-serif';
+        pledgeState.values.forEach(function (value) {
+          const chipWidth = ctx.measureText(value).width + 32;
+          if (x + chipWidth > w - 72) { x = 72; chipY += 48; }
+          roundedRect(ctx, x, chipY, chipWidth, 34, 17); ctx.fillStyle = '#e6edf8'; ctx.fill();
+          ctx.fillStyle = '#122a43'; ctx.fillText(value, x + 16, chipY + 22);
+          x += chipWidth + 10;
+        });
+        ctx.strokeStyle = '#d9ded9'; ctx.beginPath(); ctx.moveTo(72, h - 88); ctx.lineTo(w - 72, h - 88); ctx.stroke();
+        ctx.fillStyle = '#65717e'; ctx.font = '500 14px system-ui, sans-serif'; ctx.fillText('Refleksi belajar · Prototipe pembelajaran', 72, h - 58);
+        ctx.textAlign = 'right'; ctx.fillText('Bukan sertifikat resmi', w - 72, h - 58); ctx.textAlign = 'left';
+        return canvas;
+      }
+      const downloadPledge = document.getElementById('downloadPledge');
+      if (downloadPledge) {
+        downloadPledge.addEventListener('click', function () {
+          if (!pledgeState.values.length) return;
+          const canvas = drawPledgeCard();
+          const link = document.createElement('a');
+          link.download = 'kartu-refleksi-integritas-ai.png';
+          link.href = canvas.toDataURL('image/png');
+          link.click();
+          pledgeStatus.textContent = 'Kartu refleksi diunduh sebagai PNG.';
+        });
+      }
+      const printPledge = document.getElementById('printPledge');
+      if (printPledge) printPledge.addEventListener('click', function () { window.print(); });
+    })();
+  </script>
+</body>
+</html>
